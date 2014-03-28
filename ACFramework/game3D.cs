@@ -1,5 +1,4 @@
 //Michael Hildebrand
-// Abdulrahman Aljafen
 using System;
 using System.Drawing;
 using System.Windows.Forms;
