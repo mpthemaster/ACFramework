@@ -658,6 +658,40 @@ namespace ACFramework
 		
 		public override bool upIsZ(){ return false; } 
 		
-	} 
+	}
+
+    class cCritterSailorVenus : cCritter
+    {
+        
+        public cCritterSailorVenus() { }
+
+        public override void update(ACView pactiveview, float dt)
+        {
+            base.update(pactiveview, dt); 
+         
+        } 
+
+        public override void die()
+        {
+            Player.addScore(Value);
+            base.die();
+        } 
+
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterSailorVenus" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterSailorVenus";
+            }
+        }
+
+
+    }
 	
 }
