@@ -43,7 +43,129 @@ namespace ACFramework
 	} 
 	
 	//==============Critters for the cGame3D: Player, Ball, Treasure ================ 
-	
+    class cCritterKey : cCritterWall
+    {
+
+        public cCritterKey(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
+            : base(enda, endb, thickness, height, pownergame)
+        {
+        }
+
+        public override bool collide(cCritter pcritter)
+        {
+
+            bool collided = base.collide(pcritter);
+            if (collided && pcritter.IsKindOf("cCritter3DPlayer"))
+            {
+                //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
+                //so I had to do it in a backwards manner to get it to work.
+                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
+                a.keys += 1;
+                this.die();
+                return true;
+            }
+            return false;
+        }
+        
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterKey" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterKey";
+            }
+        }
+    } 
+
+    class cCritter3DPlayerHomer : cCritter3DPlayer
+    {
+        private int poisonAmount = 0;
+
+        public int keys = 0;
+
+        private float recoverTime = 20;
+        private float currentRecoverTime = 0;
+
+        //because MaxSpeed is changed around with poison, this is used to remember the player's unpoisoned speed.
+        private float normalMaxSpeed;
+
+        public cCritter3DPlayerHomer(cGame pownergame)
+            :base( pownergame)
+        {
+            normalMaxSpeed = MaxSpeed;
+        }
+
+        public override void update(ACView pactiveview, float dt)
+        {
+            base.update(pactiveview, dt); //Always call this first
+            if (poisonAmount>0)
+            {
+                //MaxSpeed=normalMaxSpeed*()
+                //use something similar to the turn time formula from CQ2 to slow the player down with?
+
+                currentRecoverTime -= dt;
+                if (currentRecoverTime<=0)
+                {
+                    poisonAmount -= 1;
+                    currentRecoverTime = recoverTime;
+                }
+            }
+        }
+
+        public override bool collide(cCritter pcritter)
+        {
+            bool collided = base.collide(pcritter);
+
+            //The wall's collide happens when the player touches it, but the player's collide doesn't happen.
+            //so picking up a key and opening a door has to be done in those object's collide instead of here.
+            
+            //Below is the collide code from cCritter3DPlayer. Might need some cleaning.
+            bool playerhigherthancritter = Position.Y - Radius > pcritter.Position.Y;
+            /* If you are "higher" than the pcritter, as in jumping on it, you get a point
+        and the critter dies.  If you are lower than it, you lose health and the
+        critter also dies. To be higher, let's say your low point has to higher
+        than the critter's center. We compute playerhigherthancritter before the collide,
+        as collide can change the positions. */
+            _baseAccessControl = 1;
+            
+            _baseAccessControl = 0;
+            if (!collided)
+                return false;
+            /* If you're here, you collided.  We'll treat all the guys the same -- the collision
+         with a Treasure is different, but we let the Treasure contol that collision. */
+            if (playerhigherthancritter)
+            {
+                Framework.snd.play(Sound.Goopy);
+                addScore(10);
+            }
+            else
+            {
+                damage(1);
+                Framework.snd.play(Sound.Crunch);
+            }
+            pcritter.die();
+            return true;
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritter3DPlayerHomer" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritter3DPlayerHomer";
+            }
+        }
+    }
+
+
 	class cCritter3DPlayer : cCritterArmedPlayer 
 	{ 
         private bool warningGiven = false;
@@ -356,7 +478,8 @@ namespace ACFramework
 		
 			WrapFlag = cCritter.BOUNCE; 
 			_seedcount = 7; 
-			setPlayer( new cCritter3DPlayer( this )); 
+            
+			setPlayer( new cCritter3DPlayerHomer( this )); 
 			_ptreasure = new cCritterTreasure( this ); 
 		
 			/* In this world the x and y go left and up respectively, while z comes out of the screen.
@@ -379,8 +502,18 @@ namespace ACFramework
 				new cSpriteTextureBox( pwall.Skeleton, BitmapRes.Wall3, 16 ); //Sets all sides 
 				/* We'll tile our sprites three times along the long sides, and on the
 			short ends, we'll only tile them once, so we reset these two. */
-          pwall.Sprite = pspritebox; 
-		
+          pwall.Sprite = pspritebox;
+
+            // The key that is placed in the center of the room for testing purposes.
+            cCritterKey pkey = new cCritterKey(
+                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz + 2.0f),
+                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz),
+                height,
+                wallthickness, 
+                this);
+            cSpriteTextureBox testingspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Sky, 1); 
+            pkey.Sprite = testingspritebox; 
+		    
 		
 			//Then draw a ramp to the top of the wall.  Scoot it over against the right wall.
 			float planckwidth = 0.75f * height; 
