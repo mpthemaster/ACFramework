@@ -318,6 +318,12 @@ namespace ACFramework
         public static readonly int Link = 2;
         public static readonly int Knight = 3;
         public static readonly int CitrusFrog = 4;
+        public static readonly int Chicken = 5;
+        public static readonly int Cobra = 6;
+        public static readonly int SailorVenus = 7;
+        public static readonly int BigHead = 8;
+        public static readonly int MiniBot = 9;
+        public static readonly int Homer = 10;
 
         // at least one must be set true
         private static readonly ModelsMD2Info[] minfo = {
@@ -325,7 +331,13 @@ namespace ACFramework
             new ModelsMD2Info( "robot", "robot.pcx", 0.2f, true ),
             new ModelsMD2Info( "link", "soft_link.pcx", 0.1f, true ),
             new ModelsMD2Info( "pknight", "ctf_b.pcx", 0.15f, true ),
-            new ModelsMD2Info( "citrusfrog", "BigRed.pcx", 0.3f, true )
+            new ModelsMD2Info( "citrusfrog", "BigRed.pcx", 0.3f, true ),
+            new ModelsMD2Info("chicken", "Psycho.pcx", 0.2f, true),
+            new ModelsMD2Info("cobra", "blood.pcx", 0.2f, true),
+            new ModelsMD2Info("sailorvenus", "VENus.pcx", 0.2f, true),
+            new ModelsMD2Info("BigHead", "beavis.pcx", 0.2f, true),
+            new ModelsMD2Info("minibot", "red.pcx", 0.2f, true),
+            new ModelsMD2Info("homersimpson", "homer.pcx", 0.2f, false)
         };            
 
         private static int[] randomCritters;
