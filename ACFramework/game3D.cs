@@ -510,12 +510,12 @@ namespace ACFramework
 
             // The key that is placed in the center of the room for testing purposes.
             cCritterKey pkey = new cCritterKey(
-                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz + 2.0f),
                 new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz),
-                height,
-                wallthickness, 
+                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz + 2.0f),
+                2,
+                2, 
                 this);
-            cSpriteTextureBox testingspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Sky, 1); 
+            cSpriteTextureBox testingspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1); 
             pkey.Sprite = testingspritebox; 
 		    
 		
