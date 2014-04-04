@@ -43,6 +43,35 @@ namespace ACFramework
 	} 
 	
 	//==============Critters for the cGame3D: Player, Ball, Treasure ================ 
+    /* Doesn't work yet, so I commented it out. I need a force for it first.
+    class cCritterWallMoving : cCritterWall
+    {
+        private bool forwards;
+        
+        public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
+            : base(enda, endb, thickness, height, pownergame)
+        {
+            addForce(new cForce());
+        }
+
+        public override void update(ACView pactiveview, float dt)
+        {
+
+        }
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterWallMoving" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterWallMoving";
+            }
+        }
+    } 
+    */
     class cCritterDoorLocked : cCritterWall
     {
 
@@ -876,4 +905,39 @@ namespace ACFramework
         }
     }
 
+    class cCritterSnake : cCritterArmed
+    {
+
+        public cCritterSnake() {}
+
+
+
+        public override void update(ACView pactiveview, float dt)
+        {
+            base.update(pactiveview, dt);
+
+           
+
+        } 
+
+        public override void die()
+        {
+            Player.addScore(Value);
+            base.die();
+        }
+
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterSnake" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterSnake";
+            }
+        }
+    }
 }
