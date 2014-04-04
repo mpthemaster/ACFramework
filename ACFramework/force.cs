@@ -250,7 +250,7 @@ namespace ACFramework
             return str == "cForceObject" || base.IsKindOf( str );
         }
 	
-	}
+	} 
 	
 	class cForceObjectSeek : cForceObject 
 	{ 
