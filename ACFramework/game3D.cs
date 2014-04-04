@@ -623,14 +623,18 @@ namespace ACFramework
             startNewRoom = Age;
         }
 		
+        //The commented out loop causes a bug that prevents the player from jumping properly.
 		public override void seedCritters() 
 		{
 			Biota.purgeCritters( "cCritterBullet" ); 
 			Biota.purgeCritters( "cCritter3Dcharacter" );
-            for (int i = 0; i < _seedcount; i++) 
-				new cCritter3Dcharacter( this );
+            //for (int i = 0; i < _seedcount; i++) 
+				//new cCritter3Dcharacter( this );
             Player.moveTo(new cVector3(0.0f, Border.Loy, Border.Hiz - 3.0f)); 
-				/* We start at hiz and move towards	loz */ 
+				/* We start at hiz and move towards	loz */
+
+            new cCritterBigHead(this);
+            new cCritterSailorVenus(this);
 		} 
 
 		
@@ -689,10 +693,10 @@ namespace ACFramework
 			} 
 		// (2) Also don't let the the model count diminish.
 					//(need to recheck propcount in case we just called seedCritters).
-			int modelcount = Biota.count( "cCritter3Dcharacter" ); 
-			int modelstoadd = _seedcount - modelcount; 
-			for ( int i = 0; i < modelstoadd; i++) 
-				new cCritter3Dcharacter( this ); 
+			//int modelcount = Biota.count( "cCritter3Dcharacter" ); 
+			//int modelstoadd = _seedcount - modelcount; 
+			//for ( int i = 0; i < modelstoadd; i++) 
+				//new cCritter3Dcharacter( this ); 
 		// (3) Maybe check some other conditions.
 
             if (wentThrough && (Age - startNewRoom) > 2.0f)
@@ -725,11 +729,14 @@ namespace ACFramework
             if (pownergame != null) //Just to be safe.
                 Sprite = new cSpriteQuake(ModelsMD2.SailorVenus);
 
-            //Stops cSpriteQuake from tumbling.
-            AttitudeToMotionLock = false;
-            Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, 1.0f),
-                new cVector3(1.0f, 0.0f, 0.0f),
-                new cVector3(0.0f, 1.0f, 0.0f), Position);
+            if (Sprite.IsKindOf("cSpriteQuake")) //Don't let the figurines tumble.  
+            {
+                //Stops cSpriteQuake from tumbling.
+                AttitudeToMotionLock = false;
+                Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, 1.0f),
+                    new cVector3(1.0f, 0.0f, 0.0f),
+                    new cVector3(0.0f, 1.0f, 0.0f), Position);
+            }
 
             /* Orient them so they are facing towards positive Z with heads towards Y. */
             Bounciness = 0.0f; //Not 1.0 means it loses a bit of energy with each bounce.
@@ -787,8 +794,86 @@ namespace ACFramework
                 return "cCritterSailorVenus";
             }
         }
-
-
     }
-	
+
+    class cCritterBigHead : cCritter
+    {
+
+        public cCritterBigHead(cGame pownergame)
+            : base(pownergame)
+        {
+            addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+            addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
+            Density = 2.0f;
+            MaxSpeed = 30.0f;
+            if (pownergame != null) //Just to be safe.
+                Sprite = new cSpriteQuake(ModelsMD2.BigHead);
+
+            if (Sprite.IsKindOf("cSpriteQuake")) //Don't let the figurines tumble.  
+            {
+                //Stops cSpriteQuake from tumbling.
+                AttitudeToMotionLock = false;
+                Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, 1.0f),
+                    new cVector3(1.0f, 0.0f, 0.0f),
+                    new cVector3(0.0f, 1.0f, 0.0f), Position);
+
+            }
+            /* Orient them so they are facing towards positive Z with heads towards Y. */
+            Bounciness = 0.0f; //Not 1.0 means it loses a bit of energy with each bounce.
+            setRadius(1.0f);
+            MinTwitchThresholdSpeed = 4.0f; //Means sprite doesn't switch direction unless it's moving fast 
+            randomizePosition(new cRealBox3(new cVector3(_movebox.Lox, _movebox.Loy, _movebox.Loz + 4.0f),
+                new cVector3(_movebox.Hix, _movebox.Loy, _movebox.Midz - 1.0f)));
+            /* I put them ahead of the player  */
+            randomizeVelocity(0.0f, 30.0f, false);
+
+
+            if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
+                addForce(new cForceObjectSeek(Player, 0.5f));
+
+            int begf = Framework.randomOb.random(0, 171);
+            int endf = Framework.randomOb.random(0, 171);
+
+            if (begf > endf)
+            {
+                int temp = begf;
+                begf = endf;
+                endf = temp;
+            }
+
+            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
+
+
+            _wrapflag = cCritter.BOUNCE;
+        }
+
+        public override void update(ACView pactiveview, float dt)
+        {
+            base.update(pactiveview, dt);
+            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+
+        }
+
+        public override void die()
+        {
+            Player.addScore(Value);
+            base.die();
+        }
+
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterBigHead" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterBigHead";
+            }
+        }
+    }
+
 }
