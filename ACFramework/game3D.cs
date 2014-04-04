@@ -96,7 +96,9 @@ namespace ACFramework
         public cCritter3DPlayerHomer(cGame pownergame)
             :base( pownergame)
         {
-            normalMaxSpeed = MaxSpeed; 
+            normalMaxSpeed = MaxSpeed;
+            Listener = new cListenerPlayer(0.2f, 12.0f); 
+            
         }
 
         public override void update(ACView pactiveview, float dt)

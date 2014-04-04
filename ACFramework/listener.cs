@@ -443,7 +443,8 @@ namespace ACFramework
 
     class cListenerPlayer : cListenerScooterYHopper
     {
-        public cListenerPlayer() : base()
+        public cListenerPlayer(float walksp = 6.0f, float hopst = 2.0f)
+            : base(walksp, hopst)
         {
             
         }
@@ -500,9 +501,9 @@ namespace ACFramework
                     pcritter.yaw((float)Math.PI); //This puts _velocity back in the correct direction.
                 //(b) Alter the motion matrix.
                 if (left)
-                    pcritter.yaw(dt * turnspeed(pcontroller.keystateage(vk.Left)));
+                    pcritter.yaw(dt * turnspeed(pcontroller.keystateage(vk.A)));
                 if (right)
-                    pcritter.yaw(-dt * turnspeed(pcontroller.keystateage(vk.Right)));
+                    pcritter.yaw(-dt * turnspeed(pcontroller.keystateage(vk.D)));
                 //(c) Match the attitude to the motion matrix.
                 pcritter.copyMotionMatrixToAttitudeMatrix();
                 if (inreverse) //Keep the tangent and atttitudeTangent in opposite directions.
