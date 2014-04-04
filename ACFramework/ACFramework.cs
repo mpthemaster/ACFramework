@@ -293,9 +293,11 @@ namespace ACFramework
                 // savetime is the time saved from a previous iteration of OnRenderFrame
             savetime = currentDate.Ticks;
             float timeInSeconds = elapsedTimeIn100ns / 10000000.0f; // elapsed time in seconds
+            /*
             if (timeInSeconds < _mindt)
                 timeInSeconds = _mindt;
-            else if (timeInSeconds > _maxdt)
+             */
+            if (timeInSeconds > _maxdt)
                 timeInSeconds = _maxdt;
                 // I won't let the time be less than _mindt or greater than _maxdt so
                 // that we get a decent number of frames per second.  If it's less
