@@ -296,8 +296,7 @@ namespace ACFramework
             /*
             if (timeInSeconds < _mindt)
                 timeInSeconds = _mindt;
-             */
-            if (timeInSeconds > _maxdt)
+            else */if (timeInSeconds > _maxdt)
                 timeInSeconds = _maxdt;
                 // I won't let the time be less than _mindt or greater than _maxdt so
                 // that we get a decent number of frames per second.  If it's less
