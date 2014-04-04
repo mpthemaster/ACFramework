@@ -43,6 +43,45 @@ namespace ACFramework
 	} 
 	
 	//==============Critters for the cGame3D: Player, Ball, Treasure ================ 
+    class cCritterDoorLocked : cCritterWall
+    {
+
+        public cCritterDoorLocked(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
+            : base(enda, endb, thickness, height, pownergame)
+        {
+        }
+
+        public override bool collide(cCritter pcritter)
+        {
+            bool collided = base.collide(pcritter);
+            if (collided && pcritter.IsKindOf("cCritter3DPlayer"))
+            {
+                //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
+                //so I had to do it in a backwards manner to get it to work.
+                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
+                if (a.keys > 0)
+                {
+                    a.keys -= 1;
+                    this.die();
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterDoorLocked" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterDoorLocked";
+            }
+        }
+    } 
     class cCritterKey : cCritterWall
     {
 
@@ -538,7 +577,16 @@ namespace ACFramework
 				0.1f, 2, this ); 
 			cSpriteTextureBox pspritedoor = 
 				new cSpriteTextureBox( pdwall.Skeleton, BitmapRes.Door ); 
-			pdwall.Sprite = pspritedoor; 
+			pdwall.Sprite = pspritedoor;
+
+            cCritterDoorLocked testingDoor = new cCritterDoorLocked(
+                new cVector3(_border.Midx-4.0f, _border.Loy, _border.Midz),
+                new cVector3(_border.Midx-4.0f, _border.Midy - 3, _border.Midz),
+                0.1f, 3, this);
+            cSpriteTextureBox pspritedoorlocked =
+                new cSpriteTextureBox(testingDoor.Skeleton, BitmapRes.Door);
+            testingDoor.Sprite = pspritedoorlocked; 
+
 		} 
 
         public void setRoom1( )
