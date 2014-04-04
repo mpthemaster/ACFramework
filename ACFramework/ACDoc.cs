@@ -28,7 +28,6 @@ namespace ACFramework
             bool didareset = false;
             if (_pgame.NewGame)
             {
-                MessageBox.Show("PRESS ENTER\nTo Start Game.");
                 RESTART = true;
                 _pgame.start();
                 didareset = true;

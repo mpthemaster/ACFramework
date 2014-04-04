@@ -87,7 +87,7 @@ namespace ACFramework
 
         public int keys = 0;
 
-        private float recoverTime = 20;
+        private float recoverTime = 5;
         private float currentRecoverTime = 0;
 
         //because MaxSpeed is changed around with poison, this is used to remember the player's unpoisoned speed.
@@ -102,18 +102,20 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt); //Always call this first
-            if (poisonAmount>0)
-            {
-                //MaxSpeed=normalMaxSpeed*()
-                //use something similar to the turn time formula from CQ2 to slow the player down with?
 
+            //Every three poison will cut speed in half. All the casting made it ugly, here's the math without all the excess: 1/(2^((poisonAmount)/3))
+            MaxSpeed = normalMaxSpeed * (float)(1.0 / (Math.Pow(2.0, (poisonAmount / 3.0))));
+
+            if (poisonAmount > 0)
+            {
                 currentRecoverTime -= dt;
-                if (currentRecoverTime<=0)
+                if (currentRecoverTime <= 0)
                 {
                     poisonAmount -= 1;
                     currentRecoverTime = recoverTime;
                 }
             }
+
         }
 
         public override bool collide(cCritter pcritter)
