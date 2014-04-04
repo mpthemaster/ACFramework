@@ -470,7 +470,7 @@ namespace ACFramework
             bool up = Framework.keydev[vk.W];
             bool down = Framework.keydev[vk.S];
             bool pageup = Framework.keydev[vk.J];
-            bool pagedown = Framework.keydev[vk.PageDown];
+            bool pagedown = Framework.keydev[vk.L];
             if (!_hopping && up)
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(pcritter.MaxSpeed);
             if (!_hopping && down)
