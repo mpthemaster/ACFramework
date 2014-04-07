@@ -348,7 +348,7 @@ namespace ACFramework
             new ModelsMD2Info( "link", "soft_link.pcx", 0.1f, true ),
             new ModelsMD2Info( "pknight", "ctf_b.pcx", 0.15f, true ),
             new ModelsMD2Info( "citrusfrog", "BigRed.pcx", 0.3f, true ),
-            new ModelsMD2Info("chicken", "Psycho.pcx", 0.2f, true),
+            new ModelsMD2Info("chicken", "Psycho.pcx", 0.25f, true),
             new ModelsMD2Info("cobra", "blood.pcx", 0.2f, true),
             new ModelsMD2Info("sailorvenus", "VENus.pcx", 0.25f, true),
             new ModelsMD2Info("BigHead", "beavis.pcx", 0.25f, true),
