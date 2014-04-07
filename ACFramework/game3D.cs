@@ -53,7 +53,6 @@ namespace ACFramework
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
             : base(enda, endb, thickness, height, pownergame)
         {
-            addForce(new cForceGravity(50.0f));
         }
 
         public override void update(ACView pactiveview, float dt)
