@@ -47,7 +47,8 @@ namespace ACFramework
     
     class cCritterWallMoving : cCritterWall
     {
-        //private bool forwards;
+        private bool forwards;
+        private float timeToTurn = 1.0f;
         
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
             : base(enda, endb, thickness, height, pownergame)
@@ -58,6 +59,7 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
+            dragTo(Position.add(new cVector3(1.0f * dt,0, 1.0f * dt)),dt);
         }
 
         public override bool IsKindOf(string str)
