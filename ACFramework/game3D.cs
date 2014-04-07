@@ -151,9 +151,9 @@ namespace ACFramework
         }
     } 
 
-    class cCritter3DPlayerHomer : cCritter3DPlayer
+    class cCritter3DPlayerHomer : cCritterArmedPlayer
     {
-        private int poisonAmount = 20;
+        private int poisonAmount = 0;
 
         public int keys = 0;
 
@@ -166,9 +166,27 @@ namespace ACFramework
         public cCritter3DPlayerHomer(cGame pownergame)
             :base( pownergame)
         {
+            BulletClass = new cCritter3DPlayerBullet();
+            Sprite = new cSpriteQuake(ModelsMD2.Homer);
+            Sprite.SpriteAttitude = cMatrix3.scale(2, 0.8f, 0.4f);
+            setRadius(cGame3D.PLAYERRADIUS); //Default cCritter.PLAYERRADIUS is 0.4.  
+            setHealth(10);
+            moveTo(_movebox.LoCorner.add(new cVector3(0.0f, 0.0f, 2.0f)));
+            WrapFlag = cCritter.CLAMP; //Use CLAMP so you stop dead at edges.
+            Armed = true; //Let's use bullets.
+            MaxSpeed = cGame3D.MAXPLAYERSPEED;
             normalMaxSpeed = MaxSpeed;
+            AbsorberFlag = true; //Keeps player from being buffeted about.
+            ListenerAcceleration = 160.0f; //So Hopper can overcome gravity.  Only affects hop.
+
             Listener = new cListenerPlayer(0.2f, 12.0f); 
-            
+            // the two arguments are walkspeed and hop strength -- JC
+
+            addForce(new cForceGravity(50.0f)); /* Uses  gravity. Default strength is 25.0.
+			Gravity	will affect player using cListenerHopper. */
+            AttitudeToMotionLock = false; //It looks nicer is you don't turn the player with motion.
+            Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, -1.0f), new cVector3(-1.0f, 0.0f, 0.0f),
+                new cVector3(0.0f, 1.0f, 0.0f), Position); 
         }
 
         public override void update(ACView pactiveview, float dt)
@@ -223,6 +241,12 @@ namespace ACFramework
             }
             pcritter.die();
             return true;
+        }
+
+        public override cCritterBullet shoot()
+        {
+            Framework.snd.play(Sound.LaserFire);
+            return base.shoot();
         }
 
         public override bool IsKindOf(string str)
