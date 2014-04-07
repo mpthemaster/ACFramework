@@ -52,13 +52,14 @@ namespace ACFramework
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
             : base(enda, endb, thickness, height, pownergame)
         {
-            addForce(new cForceWall(new cVector3(1.0f,1.0f,0),30));
+            addForce(new cForceGravity(50.0f));
         }
 
         public override void update(ACView pactiveview, float dt)
         {
-
+            base.update(pactiveview, dt);
         }
+
         public override bool IsKindOf(string str)
         {
             return str == "cCritterWallMoving" || base.IsKindOf(str);
@@ -84,7 +85,7 @@ namespace ACFramework
         public override bool collide(cCritter pcritter)
         {
             bool collided = base.collide(pcritter);
-            if (collided && pcritter.IsKindOf("cCritter3DPlayer"))
+            if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
             {
                 //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
                 //so I had to do it in a backwards manner to get it to work.
@@ -125,7 +126,7 @@ namespace ACFramework
         {
 
             bool collided = base.collide(pcritter);
-            if (collided && pcritter.IsKindOf("cCritter3DPlayer"))
+            if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
             {
                 //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
                 //so I had to do it in a backwards manner to get it to work.
@@ -615,14 +616,15 @@ namespace ACFramework
             cSpriteTextureBox testingspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1); 
             pkey.Sprite = testingspritebox;
 
+
             cCritterWallMoving pmovingwall = new cCritterWallMoving(
-                new cVector3(_border.Midx + 5.0f, ycenter, _border.Midz),
-                new cVector3(_border.Midx + 5.0f, ycenter, _border.Midz + 2.0f),
+                new cVector3(_border.Midx + 5.0f, ycenter+5.0f, _border.Midz),
+                new cVector3(_border.Midx + 5.0f, ycenter+5.0f, _border.Midz + 2.0f),
                 2,
                 2,
                 this);
-            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1);
-            pkey.Sprite = testingmovingwallspritebox; 
+            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Sky, 1);
+            pmovingwall.Sprite = testingmovingwallspritebox; 
 		    
 		
 			//Then draw a ramp to the top of the wall.  Scoot it over against the right wall.
