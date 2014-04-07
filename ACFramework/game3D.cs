@@ -43,7 +43,8 @@ namespace ACFramework
 	} 
 	
 	//==============Critters for the cGame3D: Player, Ball, Treasure ================ 
-    /* Doesn't work yet, so I commented it out. I need a force for it first.
+    // Doesn't work yet, so I commented it out. I need a force for it first.
+    /*
     class cCritterWallMoving : cCritterWall
     {
         private bool forwards;
@@ -51,7 +52,7 @@ namespace ACFramework
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
             : base(enda, endb, thickness, height, pownergame)
         {
-            addForce(new cForce());
+            addForce();
         }
 
         public override void update(ACView pactiveview, float dt)
@@ -111,6 +112,7 @@ namespace ACFramework
             }
         }
     } 
+    
     class cCritterKey : cCritterWall
     {
 
@@ -151,7 +153,7 @@ namespace ACFramework
 
     class cCritter3DPlayerHomer : cCritter3DPlayer
     {
-        private int poisonAmount = 0;
+        private int poisonAmount = 20;
 
         public int keys = 0;
 

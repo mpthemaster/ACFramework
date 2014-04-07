@@ -95,6 +95,48 @@ namespace ACFramework
             float mass = pcritter.Mass;
             return _windvector.sub(pcritter.Velocity).mult(area * _intensity);
         }
+    }
+
+    class cForceWall : cForce
+    {
+        protected cVector3 _direction;
+        protected float speed;
+
+        public cForceWall( cVector3 direction, float speed)
+        {
+            _direction = new cVector3();
+            _direction.copy(direction);
+        }
+
+        public override void copy(cForce pforce)
+        {
+            base.copy(pforce);
+            if (!pforce.IsKindOf("cForceWall"))
+                return;
+            cForceWall pforcechild = (cForceWall)pforce; // Cast so as to access fields.
+            _direction = pforcechild._direction;
+        }
+
+        public override cForce copy()
+        {
+            cForceDrag f = new cForceDrag();
+            f.copy(this);
+            return f;
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cForceWall" || base.IsKindOf(str);
+        }
+
+        public override bool isGlobalPhysicsForce() { return true; }
+
+        public override cVector3 force(cCritter pcritter)
+        {
+            float area = pcritter.Radius * pcritter.Radius;
+            float mass = pcritter.Mass;
+            return _direction.mult(area * speed);
+        }
     }		
 
 
