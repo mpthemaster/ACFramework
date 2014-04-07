@@ -275,7 +275,7 @@ namespace ACFramework
                 Game.Border.Midz)) < 3.0f)
             {
                 warningGiven = true;
-                MessageBox.Show("DON'T GO THROUGH THAT DOOR!!!  DON'T EVEN THINK ABOUT IT!!!");
+                //MessageBox.Show("DON'T GO THROUGH THAT DOOR!!!  DON'T EVEN THINK ABOUT IT!!!");
             }
  
         } 
@@ -736,7 +736,7 @@ namespace ACFramework
 
             if (wentThrough && (Age - startNewRoom) > 2.0f)
             {
-                MessageBox.Show("What an idiot.");
+                //MessageBox.Show("What an idiot.");
                 wentThrough = false;
             }
 
