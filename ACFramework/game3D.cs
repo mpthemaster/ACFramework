@@ -169,7 +169,7 @@ namespace ACFramework
             BulletClass = new cCritter3DPlayerBullet();
             Sprite = new cSpriteQuake(ModelsMD2.Homer);
             Sprite.SpriteAttitude = cMatrix3.scale(2, 0.8f, 0.4f);
-            setRadius(cGame3D.PLAYERRADIUS); //Default cCritter.PLAYERRADIUS is 0.4.  
+            setRadius(0.5f); //Default cCritter.PLAYERRADIUS is 0.4.  
             setHealth(10);
             moveTo(_movebox.LoCorner.add(new cVector3(0.0f, 0.0f, 2.0f)));
             WrapFlag = cCritter.CLAMP; //Use CLAMP so you stop dead at edges.
@@ -810,7 +810,7 @@ namespace ACFramework
 
             /* Orient them so they are facing towards positive Z with heads towards Y. */
             Bounciness = 0.0f; //Not 1.0 means it loses a bit of energy with each bounce.
-            setRadius(1.0f);
+            setRadius(0.5f);
             MinTwitchThresholdSpeed = 4.0f; //Means sprite doesn't switch direction unless it's moving fast 
             randomizePosition(new cRealBox3(new cVector3(_movebox.Lox, _movebox.Loy, _movebox.Loz + 4.0f),
                 new cVector3(_movebox.Hix, _movebox.Loy, _movebox.Midz - 1.0f)));
@@ -890,7 +890,7 @@ namespace ACFramework
             }
             /* Orient them so they are facing towards positive Z with heads towards Y. */
             Bounciness = 0.0f; //Not 1.0 means it loses a bit of energy with each bounce.
-            setRadius(1.0f);
+            setRadius(0.5f);
             MinTwitchThresholdSpeed = 4.0f; //Means sprite doesn't switch direction unless it's moving fast 
             randomizePosition(new cRealBox3(new cVector3(_movebox.Lox, _movebox.Loy, _movebox.Loz + 4.0f),
                 new cVector3(_movebox.Hix, _movebox.Loy, _movebox.Midz - 1.0f)));
@@ -1052,7 +1052,7 @@ namespace ACFramework
             }
             /* Orient them so they are facing towards positive Z with heads towards Y. */
             Bounciness = 0.0f; //Not 1.0 means it loses a bit of energy with each bounce.
-            setRadius(1.0f);
+            setRadius(1.5f);
             MinTwitchThresholdSpeed = 4.0f; //Means sprite doesn't switch direction unless it's moving fast 
             randomizePosition(new cRealBox3(new cVector3(_movebox.Lox, _movebox.Loy, _movebox.Loz + 4.0f),
                 new cVector3(_movebox.Hix, _movebox.Loy, _movebox.Midz - 1.0f)));
