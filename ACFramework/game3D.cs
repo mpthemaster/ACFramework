@@ -701,10 +701,12 @@ namespace ACFramework
             new cCritterSailorVenus(this);
             new cCritterMiniBot(this);
             new cCritterSnake(this);
+            new cCritterChicken(this);
             new cCritterBigHead(this);
             new cCritterSailorVenus(this);
             new cCritterMiniBot(this);
             new cCritterSnake(this);
+             new cCritterChicken(this);
 		} 
 
 		
