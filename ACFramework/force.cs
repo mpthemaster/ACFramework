@@ -135,7 +135,7 @@ namespace ACFramework
         {
             float area = pcritter.Radius * pcritter.Radius;
             float mass = pcritter.Mass;
-            return _direction.mult(area * speed);
+            return _direction.mult(area * mass * speed);
         }
     }		
 

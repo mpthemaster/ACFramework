@@ -44,15 +44,15 @@ namespace ACFramework
 	
 	//==============Critters for the cGame3D: Player, Ball, Treasure ================ 
     // Doesn't work yet, so I commented it out. I need a force for it first.
-    /*
+    
     class cCritterWallMoving : cCritterWall
     {
-        private bool forwards;
+        //private bool forwards;
         
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
             : base(enda, endb, thickness, height, pownergame)
         {
-            addForce();
+            addForce(new cForceWall(new cVector3(1.0f,1.0f,0),30));
         }
 
         public override void update(ACView pactiveview, float dt)
@@ -72,7 +72,7 @@ namespace ACFramework
             }
         }
     } 
-    */
+    
     class cCritterDoorLocked : cCritterWall
     {
 
@@ -610,7 +610,16 @@ namespace ACFramework
                 2, 
                 this);
             cSpriteTextureBox testingspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1); 
-            pkey.Sprite = testingspritebox; 
+            pkey.Sprite = testingspritebox;
+
+            cCritterWallMoving pmovingwall = new cCritterWallMoving(
+                new cVector3(_border.Midx + 5.0f, ycenter, _border.Midz),
+                new cVector3(_border.Midx + 5.0f, ycenter, _border.Midz + 2.0f),
+                2,
+                2,
+                this);
+            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1);
+            pkey.Sprite = testingmovingwallspritebox; 
 		    
 		
 			//Then draw a ramp to the top of the wall.  Scoot it over against the right wall.
