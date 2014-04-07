@@ -213,8 +213,10 @@ namespace ACFramework
         {
             bool collided = base.collide(pcritter);
 
-            if (pcritter.IsKindOf("cCritterSnake"))
+            if (collided && pcritter.IsKindOf("cCritterSnake"))
+            {
                 poisonAmount += 3;
+            }
 
             //The wall's collide happens when the player touches it, but the player's collide doesn't happen.
             //so picking up a key and opening a door has to be done in those object's collide instead of here.
