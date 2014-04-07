@@ -350,9 +350,9 @@ namespace ACFramework
             new ModelsMD2Info( "citrusfrog", "BigRed.pcx", 0.3f, true ),
             new ModelsMD2Info("chicken", "Psycho.pcx", 0.2f, true),
             new ModelsMD2Info("cobra", "blood.pcx", 0.2f, true),
-            new ModelsMD2Info("sailorvenus", "VENus.pcx", 0.2f, true),
-            new ModelsMD2Info("BigHead", "beavis.pcx", 0.2f, true),
-            new ModelsMD2Info("minibot", "red.pcx", 0.2f, true),
+            new ModelsMD2Info("sailorvenus", "VENus.pcx", 0.25f, true),
+            new ModelsMD2Info("BigHead", "beavis.pcx", 0.25f, true),
+            new ModelsMD2Info("minibot", "red.pcx", 0.25f, true),
             new ModelsMD2Info("homersimpson", "homer.pcx", 0.2f, false)
         };            
 
