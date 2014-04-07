@@ -1028,7 +1028,7 @@ namespace ACFramework
 
     }
 
-    class cCritterChicken : cCritter(cGame pownergame)
+    class cCritterChicken : cCritter
     {
 
         public cCritterChicken(cGame pownergame)
