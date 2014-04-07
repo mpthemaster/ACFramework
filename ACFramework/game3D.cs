@@ -47,7 +47,7 @@ namespace ACFramework
     
     class cCritterWallMoving : cCritterWall
     {
-        private bool forwards;
+        private float speed = 2.0f;
         private float timeToTurn = 1.0f;
         
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
@@ -58,7 +58,15 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            dragTo(Position.add(new cVector3(1.0f * dt,0, 1.0f * dt)),dt);
+            
+            dragTo(Position.add(new cVector3(speed * dt,0,0)),dt);
+
+            timeToTurn -=dt;
+            if (timeToTurn<=0)
+            {
+                speed *= -1;
+                timeToTurn = 1.0f;
+            }
         }
 
         public override bool IsKindOf(string str)
@@ -621,12 +629,12 @@ namespace ACFramework
 
 
             cCritterWallMoving pmovingwall = new cCritterWallMoving(
-                new cVector3(_border.Midx + 5.0f, ycenter+5.0f, _border.Midz),
-                new cVector3(_border.Midx + 5.0f, ycenter+5.0f, _border.Midz + 2.0f),
-                2,
-                2,
+                new cVector3(_border.Midx + 5.0f, ycenter-20.0f, _border.Midz),
+                new cVector3(_border.Midx + 5.0f, ycenter-20.0f, _border.Midz + 8.0f),
+                8,
+                1,
                 this);
-            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Sky, 1);
+            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Wall3, 1);
             pmovingwall.Sprite = testingmovingwallspritebox; 
 		    
 		
