@@ -734,6 +734,7 @@ namespace ACFramework
         public void setRoomHallway()
         {
             Biota.purgeCritters("cCritterWall");
+            Biota.purgeCritters("cCritterTreasure");
             Biota.purgeCritters("cCritter3Dcharacter");
             /* Because our critters inherited directly from cCritter, these following lines
              * had to be put in because out critters aren't deleted in the above line.
@@ -749,20 +750,23 @@ namespace ACFramework
             Biota.purgeCritters("cCritterSnake");
             Biota.purgeCritters("cCritterChicken");
 
-            setBorder(10.0f, 15.0f, 40.0f);
+            setBorder(10.0f, 20.0f, 80.0f);
             cRealBox3 skeleton = new cRealBox3();
             skeleton.copy(_border);
             setSkyBox(skeleton);
-            SkyBox.setAllSidesTexture(BitmapRes.Graphics1, 2);
-            SkyBox.setSideTexture(cRealBox3.LOY, BitmapRes.Concrete);
-            SkyBox.setSideSolidColor(cRealBox3.HIY, Color.Blue);
+            SkyBox.setSideTexture(cRealBox3.HIX, BitmapRes.Wall1, 2);
+            SkyBox.setSideTexture(cRealBox3.LOX, BitmapRes.Wall1, 2);
+            SkyBox.setSideTexture(cRealBox3.LOY, BitmapRes.Wall6, 2);
+
             _seedcount = 0;
-            Player.setMoveBox(new cRealBox3(10.0f, 15.0f, 40.0f));
+            Player.setMoveBox(new cRealBox3(10.0f, 20.0f, 80.0f));
             float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
 			halfway down the hall, but we can offset it if we like. */
             float height = 0.1f * _border.YSize;
             float ycenter = -_border.YRadius + height / 2.0f;
             float wallthickness = cGame3D.WALLTHICKNESS;
+            seedCritters();
+
             cCritterWall pwall = new cCritterWall(
                 new cVector3(_border.Midx + 2.0f, ycenter, zpos),
                 new cVector3(_border.Hix, ycenter, zpos),
@@ -775,6 +779,16 @@ namespace ACFramework
             /* We'll tile our sprites three times along the long sides, and on the
         short ends, we'll only tile them once, so we reset these two. */
             pwall.Sprite = pspritebox;
+
+            cCritterWallMoving pmovingwall = new cCritterWallMoving(
+                new cVector3(5.0f, 20.0f, 40.0f),
+                new cVector3(5.0f, 20.0f, 48.0f),
+                5,
+                2,
+                this);
+            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Wall3, 1);
+            pmovingwall.Sprite = testingmovingwallspritebox; 
+
             wentThrough = true;
             startNewRoom = Age;
         }
@@ -872,7 +886,6 @@ namespace ACFramework
             if (doorcollision == true)
             {
                 setRoomHallway();
-                MessageBox.Show("testing");
                 doorcollision = false;
             }
 		} 
