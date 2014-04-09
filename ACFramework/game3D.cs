@@ -214,17 +214,18 @@ namespace ACFramework
             Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, -1.0f), new cVector3(-1.0f, 0.0f, 0.0f),
                 new cVector3(0.0f, 1.0f, 0.0f), Position);
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
+            //Leaving just incase it needs to be enabled again.
+            //int begf = Framework.randomOb.random(0, 171);
+            //int endf = Framework.randomOb.random(0, 171);
 
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
+            //if (begf > endf)
+            //{
+            //    int temp = begf;
+            //    begf = endf;
+            //    endf = temp;
+            //}
 
-            Sprite.setstate(State.Idle, begf, endf, StateType.Repeat);
+            //Sprite.setstate(State.Idle, begf, endf, StateType.Repeat);
         }
 
         public override void update(ACView pactiveview, float dt)
@@ -281,6 +282,12 @@ namespace ACFramework
             {
                 damage(1);
                 Framework.snd.play(Sound.Crunch);
+
+                if (Health == 0)
+                {
+                    Sprite.setstate(State.KneelDying, 0, 171, StateType.Hold);
+                }
+
             }
             pcritter.die();
             return true;
@@ -343,7 +350,7 @@ namespace ACFramework
             if (!warningGiven && distanceTo(new cVector3(Game.Border.Lox, Game.Border.Loy,
                 Game.Border.Midz)) < 3.0f)
             {
-                warningGiven = true; 
+                warningGiven = true;
                 //MessageBox.Show("DON'T GO THROUGH THAT DOOR!!!  DON'T EVEN THINK ABOUT IT!!!");
             }
  
@@ -659,8 +666,8 @@ namespace ACFramework
             cCritterWallMoving pmovingwall = new cCritterWallMoving(
                 new cVector3(_border.Midx + 5.0f, ycenter-20.0f, _border.Midz),
                 new cVector3(_border.Midx + 5.0f, ycenter-20.0f, _border.Midz + 8.0f),
-                5,
-                2,
+                8,
+                1,
                 this);
             cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Wall3, 1);
             pmovingwall.Sprite = testingmovingwallspritebox; 
@@ -730,6 +737,7 @@ namespace ACFramework
             wentThrough = true;
             startNewRoom = Age;
         }
+
 
         public void setRoomHallway()
         {
@@ -812,7 +820,7 @@ namespace ACFramework
             new cCritterSailorVenus(this);
             new cCritterMiniBot(this);
             new cCritterSnake(this);
-            new cCritterChicken(this);
+             new cCritterChicken(this);
 		} 
 
 		
