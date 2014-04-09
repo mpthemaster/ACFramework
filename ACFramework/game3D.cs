@@ -49,6 +49,8 @@ namespace ACFramework
     {
         private float speed = 2.0f;
         private float timeToTurn = 1.0f;
+
+        private float savedt =0.1f;
         
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
             : base(enda, endb, thickness, height, pownergame)
@@ -67,6 +69,20 @@ namespace ACFramework
                 speed *= -1;
                 timeToTurn = 1.0f;
             }
+            //the collide function doesn't have dt passed into it, so I save it in a variable
+            //here to be used there for moving the player when standing on the moving wall.
+            savedt = dt;
+        }
+
+        public override bool collide(cCritter pcritter)
+        {
+            bool collided = base.collide(pcritter);
+            if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
+            {
+                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
+                a.dragTo(a.Position.add(new cVector3(speed * savedt, 0, 0)), savedt);
+            }
+            return false;
         }
 
         public override bool IsKindOf(string str)
