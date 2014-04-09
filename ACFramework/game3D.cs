@@ -196,7 +196,19 @@ namespace ACFramework
 			Gravity	will affect player using cListenerHopper. */
             AttitudeToMotionLock = false; //It looks nicer is you don't turn the player with motion.
             Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, -1.0f), new cVector3(-1.0f, 0.0f, 0.0f),
-                new cVector3(0.0f, 1.0f, 0.0f), Position); 
+                new cVector3(0.0f, 1.0f, 0.0f), Position);
+
+            int begf = Framework.randomOb.random(0, 171);
+            int endf = Framework.randomOb.random(0, 171);
+
+            if (begf > endf)
+            {
+                int temp = begf;
+                begf = endf;
+                endf = temp;
+            }
+
+            Sprite.setstate(State.Idle, begf, endf, StateType.Repeat);
         }
 
         public override void update(ACView pactiveview, float dt)

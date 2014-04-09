@@ -473,14 +473,21 @@ namespace ACFramework
             bool pageup = Framework.keydev[vk.J];
             bool pagedown = Framework.keydev[vk.L];
             if (!_hopping && up)
+            {
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(pcritter.MaxSpeed);
+                pcritter.Sprite.setstate(State.Run, 0, 170, StateType.Repeat);
+            }
             if (!_hopping && down)
             {
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(-pcritter.MaxSpeed);
                 inreverse = true;
+                pcritter.Sprite.setstate(State.Run, 0, 170, StateType.Repeat);
             }
             if (!up && !down)
+            {
                 pcritter.Velocity = new cVector3(0.0f, 0.0f, 0.0f);
+                pcritter.Sprite.setstate(State.Idle, 0, 170, StateType.Repeat);
+            }
 
             //Now restore the y velocity.
             pcritter.Velocity = new cVector3(pcritter.Velocity.X, yvelocity, pcritter.Velocity.Z);
