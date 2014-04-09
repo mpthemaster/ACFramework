@@ -38,6 +38,7 @@ namespace ACFramework
         public static readonly int Wall5 = 10;
         public static readonly int Wall1 = 11;
         public static readonly int Wall6 = 12;
+        public static readonly int Metal1 = 13;
         
 
         private static readonly string[] Bitmap = new string[] {
@@ -53,7 +54,8 @@ namespace ACFramework
                 "key.bmp",
                 "wall5.bmp",
                 "wall1.bmp",
-                "wall6.bmp"
+                "wall6.bmp",
+                "Metal1.bmp"
             };
 
         public BitmapRes()

@@ -689,7 +689,7 @@ namespace ACFramework
 			cCritterDoor pdwall = new cCritterDoor( 
 				new cVector3( _border.Lox, _border.Loy, _border.Midz ), 
 				new cVector3( _border.Lox, _border.Midy - 3, _border.Midz ), 
-				0.1f, 2, this ); 
+				0.6f, 2, this ); 
 			cSpriteTextureBox pspritedoor = 
 				new cSpriteTextureBox( pdwall.Skeleton, BitmapRes.Door ); 
 			pdwall.Sprite = pspritedoor;
@@ -765,6 +765,9 @@ namespace ACFramework
             SkyBox.setSideTexture(cRealBox3.HIX, BitmapRes.Wall1, 2);
             SkyBox.setSideTexture(cRealBox3.LOX, BitmapRes.Wall1, 2);
             SkyBox.setSideTexture(cRealBox3.LOY, BitmapRes.Wall6, 2);
+            SkyBox.setSideTexture(cRealBox3.HIZ, BitmapRes.Concrete, 1);
+            SkyBox.setSideTexture(cRealBox3.LOZ, BitmapRes.Concrete, 1);
+            SkyBox.setSideTexture(cRealBox3.HIY, BitmapRes.Metal1, 1);
 
             _seedcount = 0;
             Player.setMoveBox(new cRealBox3(10.0f, 20.0f, 80.0f));
