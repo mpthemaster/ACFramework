@@ -20,7 +20,7 @@ namespace ACFramework
 		public override bool collide( cCritter pcritter ) 
 		{ 
 			bool collided = base.collide( pcritter ); 
-			if ( collided && pcritter.IsKindOf( "cCritter3DPlayerHomer" ) ) 
+			if ( collided && pcritter.IsKindOf( "cCritter3DPlayer" ) ) 
 			{ 
 				(( cGame3D ) Game ).setdoorcollision( ); 
 				return true; 
@@ -214,17 +214,18 @@ namespace ACFramework
             Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, -1.0f), new cVector3(-1.0f, 0.0f, 0.0f),
                 new cVector3(0.0f, 1.0f, 0.0f), Position);
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
+            //Leaving just incase it needs to be enabled again.
+            //int begf = Framework.randomOb.random(0, 171);
+            //int endf = Framework.randomOb.random(0, 171);
 
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
+            //if (begf > endf)
+            //{
+            //    int temp = begf;
+            //    begf = endf;
+            //    endf = temp;
+            //}
 
-            Sprite.setstate(State.Idle, begf, endf, StateType.Repeat);
+            //Sprite.setstate(State.Idle, begf, endf, StateType.Repeat);
         }
 
         public override void update(ACView pactiveview, float dt)
@@ -281,6 +282,12 @@ namespace ACFramework
             {
                 damage(1);
                 Framework.snd.play(Sound.Crunch);
+
+                if (Health == 0)
+                {
+                    Sprite.setstate(State.KneelDying, 0, 171, StateType.Hold);
+                }
+
             }
             pcritter.die();
             return true;
@@ -343,7 +350,7 @@ namespace ACFramework
             if (!warningGiven && distanceTo(new cVector3(Game.Border.Lox, Game.Border.Loy,
                 Game.Border.Midz)) < 3.0f)
             {
-                warningGiven = true; 
+                warningGiven = true;
                 //MessageBox.Show("DON'T GO THROUGH THAT DOOR!!!  DON'T EVEN THINK ABOUT IT!!!");
             }
  
@@ -659,8 +666,8 @@ namespace ACFramework
             cCritterWallMoving pmovingwall = new cCritterWallMoving(
                 new cVector3(_border.Midx + 5.0f, ycenter-20.0f, _border.Midz),
                 new cVector3(_border.Midx + 5.0f, ycenter-20.0f, _border.Midz + 8.0f),
-                5,
-                2,
+                8,
+                1,
                 this);
             cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Wall3, 1);
             pmovingwall.Sprite = testingmovingwallspritebox; 
@@ -730,54 +737,6 @@ namespace ACFramework
             wentThrough = true;
             startNewRoom = Age;
         }
-
-        public void setRoomHallway()
-        {
-            Biota.purgeCritters("cCritterWall");
-            Biota.purgeCritters("cCritter3Dcharacter");
-            /* Because our critters inherited directly from cCritter, these following lines
-             * had to be put in because out critters aren't deleted in the above line.
-             */
-            Biota.purgeCritters("cCritterBigHead");
-            Biota.purgeCritters("cCritterSailorVenus");
-            Biota.purgeCritters("cCritterMiniBot");
-            Biota.purgeCritters("cCritterSnake");
-            Biota.purgeCritters("cCritterChicken");
-            Biota.purgeCritters("cCritterBigHead");
-            Biota.purgeCritters("cCritterSailorVenus");
-            Biota.purgeCritters("cCritterMiniBot");
-            Biota.purgeCritters("cCritterSnake");
-            Biota.purgeCritters("cCritterChicken");
-
-            setBorder(10.0f, 15.0f, 40.0f);
-            cRealBox3 skeleton = new cRealBox3();
-            skeleton.copy(_border);
-            setSkyBox(skeleton);
-            SkyBox.setAllSidesTexture(BitmapRes.Graphics1, 2);
-            SkyBox.setSideTexture(cRealBox3.LOY, BitmapRes.Concrete);
-            SkyBox.setSideSolidColor(cRealBox3.HIY, Color.Blue);
-            _seedcount = 0;
-            Player.setMoveBox(new cRealBox3(10.0f, 15.0f, 40.0f));
-            float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
-			halfway down the hall, but we can offset it if we like. */
-            float height = 0.1f * _border.YSize;
-            float ycenter = -_border.YRadius + height / 2.0f;
-            float wallthickness = cGame3D.WALLTHICKNESS;
-            cCritterWall pwall = new cCritterWall(
-                new cVector3(_border.Midx + 2.0f, ycenter, zpos),
-                new cVector3(_border.Hix, ycenter, zpos),
-                height, //thickness param for wall's dy which goes perpendicular to the 
-                //baseline established by the frist two args, up the screen 
-                wallthickness, //height argument for this wall's dz  goes into the screen 
-                this);
-            cSpriteTextureBox pspritebox =
-                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 16); //Sets all sides 
-            /* We'll tile our sprites three times along the long sides, and on the
-        short ends, we'll only tile them once, so we reset these two. */
-            pwall.Sprite = pspritebox;
-            wentThrough = true;
-            startNewRoom = Age;
-        }
 		
         //The commented out loop causes a bug that prevents the player from jumping properly.
 		public override void seedCritters() 
@@ -798,7 +757,7 @@ namespace ACFramework
             new cCritterSailorVenus(this);
             new cCritterMiniBot(this);
             new cCritterSnake(this);
-            new cCritterChicken(this);
+             new cCritterChicken(this);
 		} 
 
 		
@@ -871,8 +830,7 @@ namespace ACFramework
 
             if (doorcollision == true)
             {
-                setRoomHallway();
-                MessageBox.Show("testing");
+                setRoom1();
                 doorcollision = false;
             }
 		} 

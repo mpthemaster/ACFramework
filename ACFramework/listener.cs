@@ -475,26 +475,28 @@ namespace ACFramework
             if (!_hopping && up)
             {
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(pcritter.MaxSpeed);
-                pcritter.Sprite.setstate(State.Run, 0, 170, StateType.Repeat);
+                pcritter.Sprite.setstate(State.Run, 0, 171, StateType.Repeat);
             }
             if (!_hopping && down)
             {
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(-pcritter.MaxSpeed);
                 inreverse = true;
-                pcritter.Sprite.setstate(State.Run, 0, 170, StateType.Repeat);
+                pcritter.Sprite.setstate(State.Run, 0, 171, StateType.Repeat);
             }
             if (!up && !down)
             {
                 pcritter.Velocity = new cVector3(0.0f, 0.0f, 0.0f);
-                pcritter.Sprite.setstate(State.Idle, 0, 170, StateType.Repeat);
             }
 
             //Now restore the y velocity.
             pcritter.Velocity = new cVector3(pcritter.Velocity.X, yvelocity, pcritter.Velocity.Z);
             //	Real inreversesign = inreverse?-1.0:1.0; 
 
-            if (!_hopping && !left && !right && !pagedown && !pageup)
+            if (!_hopping && !up && !down && !left && !right && !pagedown && !pageup) //Added !up && !down
+            {
+                pcritter.Sprite.setstate(State.Idle, 0, 171, StateType.Repeat);
                 return;
+            }
             /* If you get here, you've pressed an arrow key or a hop key. */
             if (!_hopping && (left || right))
             {
@@ -533,18 +535,21 @@ namespace ACFramework
                 _hopping = true;
                 _falling = false;
                 _lastSpeed = pcritter.MaxSpeed;
+                pcritter.Sprite.setstate(State.Jump, 0, 171, StateType.Repeat);
             }
             else
             {
                 if (_hopping && _lastSpeed < pcritter.Speed)
                 {
                     _falling = true;
+                    //pcritter.Sprite.setstate(State.Jump, 0, 171, StateType.Repeat); Leaving just incase this needs to be enabled.
                 }
                 else if (_hopping && _falling)
                 {
                     _hopping = false; // player has landed  
                     _falling = false;
                     pcritter.MaxSpeed = saveMaxSpeed;
+                    //pcritter.Sprite.setstate(State.Jump, 0, 171, StateType.Repeat); Leaving just incase this needs to be enabled.
                 }
                 _lastSpeed = pcritter.Speed;
             }
