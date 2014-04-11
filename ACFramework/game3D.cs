@@ -838,8 +838,8 @@ namespace ACFramework
             lava.Sprite = lavaspritebox3;
 
             cCritterWallMoving movingwall = new cCritterWallMoving(
-                new cVector3(5.0f, -2, -8.0f),
-                new cVector3(5.0f, -2, 0.0f),
+                new cVector3(5.0f, -2, -6.0f),
+                new cVector3(5.0f, -2, 4.0f),
                 10,
                 2,
                 this);
@@ -847,9 +847,9 @@ namespace ACFramework
             movingwall.Sprite = movingwallspritebox;
 
             cCritterWallMoving movingwall2 = new cCritterWallMoving(
-                new cVector3(-5.0f, -2, -5.0f),
-                new cVector3(-5.0f, -2, -25.0f),
-                2,
+                new cVector3(-5.0f, -2, -10.0f),
+                new cVector3(-5.0f, -2, -20.0f),
+                5,
                 2,
                 this);
             cSpriteTextureBox movingwallspritebox2 = new cSpriteTextureBox(movingwall2.Skeleton, BitmapRes.Wall3, 1);
