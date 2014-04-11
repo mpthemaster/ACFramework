@@ -475,13 +475,13 @@ namespace ACFramework
             if (!_hopping && up)
             {
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(pcritter.MaxSpeed);
-                pcritter.Sprite.setstate(State.Run, 0, 171, StateType.Repeat);
+                pcritter.Sprite.ModelState = State.Run;
             }
             if (!_hopping && down)
             {
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(-pcritter.MaxSpeed);
                 inreverse = true;
-                pcritter.Sprite.setstate(State.Run, 0, 171, StateType.Repeat);
+                pcritter.Sprite.ModelState = State.Run;
             }
             if (!up && !down)
             {
@@ -494,7 +494,7 @@ namespace ACFramework
 
             if (!_hopping && !up && !down && !left && !right && !pagedown && !pageup) //Added !up && !down
             {
-                pcritter.Sprite.setstate(State.Idle, 0, 171, StateType.Repeat);
+                pcritter.Sprite.ModelState = State.Idle;
                 return;
             }
             /* If you get here, you've pressed an arrow key or a hop key. */
@@ -535,7 +535,7 @@ namespace ACFramework
                 _hopping = true;
                 _falling = false;
                 _lastSpeed = pcritter.MaxSpeed;
-                pcritter.Sprite.setstate(State.Jump, 0, 171, StateType.Repeat);
+                pcritter.Sprite.ModelState = State.Jump;
             }
             else
             {

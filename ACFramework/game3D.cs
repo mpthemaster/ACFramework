@@ -214,18 +214,7 @@ namespace ACFramework
             Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, -1.0f), new cVector3(-1.0f, 0.0f, 0.0f),
                 new cVector3(0.0f, 1.0f, 0.0f), Position);
 
-            //Leaving just incase it needs to be enabled again.
-            //int begf = Framework.randomOb.random(0, 171);
-            //int endf = Framework.randomOb.random(0, 171);
-
-            //if (begf > endf)
-            //{
-            //    int temp = begf;
-            //    begf = endf;
-            //    endf = temp;
-            //}
-
-            //Sprite.setstate(State.Idle, begf, endf, StateType.Repeat);
+            Sprite.ModelState = State.Idle;
         }
 
         public override void update(ACView pactiveview, float dt)
