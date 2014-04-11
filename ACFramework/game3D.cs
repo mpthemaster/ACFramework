@@ -97,8 +97,44 @@ namespace ACFramework
                 return "cCritterWallMoving";
             }
         }
+    }
+
+    class cCritterLava : cCritterWall
+    {
+        public cCritterLava(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
+            : base(enda, endb, thickness, height, pownergame)
+        {
+        }
+
+        public override bool collide(cCritter pcritter)
+        {
+            bool collided = base.collide(pcritter);
+            if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
+            {
+                //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
+                //so I had to do it in a backwards manner to get it to work.
+                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
+                a.damage(2);
+                return true;
+            }
+            return false;
+        }
+
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterLava" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterLava";
+            }
+        }
     } 
-    
+
     class cCritterDoorLocked : cCritterWall
     {
 
@@ -747,7 +783,7 @@ namespace ACFramework
             Biota.purgeCritters("cCritterSnake");
             Biota.purgeCritters("cCritterChicken");
 
-            setBorder(10.0f, 20.0f, 80.0f);
+            setBorder(15.0f, 20.0f, 80.0f);
             cRealBox3 skeleton = new cRealBox3();
             skeleton.copy(_border);
             setSkyBox(skeleton);
@@ -759,7 +795,7 @@ namespace ACFramework
             SkyBox.setSideTexture(cRealBox3.HIY, BitmapRes.Metal1, 1);
 
             _seedcount = 0;
-            Player.setMoveBox(new cRealBox3(10.0f, 20.0f, 80.0f));
+            Player.setMoveBox(new cRealBox3(15.0f, 20.0f, 80.0f));
             float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
 			halfway down the hall, but we can offset it if we like. */
             float height = 0.1f * _border.YSize;
@@ -768,21 +804,38 @@ namespace ACFramework
             seedCritters();
 
             cCritterWall pwall = new cCritterWall(
-                new cVector3(_border.Midx + 2.0f, ycenter, zpos),
-                new cVector3(_border.Hix, ycenter, zpos),
-                height, //thickness param for wall's dy which goes perpendicular to the 
-                //baseline established by the frist two args, up the screen 
-                wallthickness, //height argument for this wall's dz  goes into the screen 
+                new cVector3(5.0f, -6, 15.0f),
+                new cVector3(5.0f, -6, 20.0f),
+                5,
+                5,
                 this);
             cSpriteTextureBox pspritebox =
-                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 16); //Sets all sides 
-            /* We'll tile our sprites three times along the long sides, and on the
-        short ends, we'll only tile them once, so we reset these two. */
-            pwall.Sprite = pspritebox;
+                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 1); 
+                pwall.Sprite = pspritebox;
+
+            cCritterWall pwall3 = new cCritterWall(
+                new cVector3(5.0f, -9, 20.0f),
+                new cVector3(5.0f, -9, 30.0f),
+                5,
+                4,
+                this);
+            cSpriteTextureBox pspritebox3 =
+                new cSpriteTextureBox(pwall3.Skeleton, BitmapRes.Wall3, 1);
+            pwall3.Sprite = pspritebox3;
+
+            cCritterLava lava = new cCritterLava(
+                new cVector3(0, -10, -15.0f),
+                new cVector3(0, -10, 0.0f),
+                16,
+                1,
+                this);
+            cSpriteTextureBox lavaspritebox3 =
+                new cSpriteTextureBox(lava.Skeleton, BitmapRes.Graphics1, 1);
+            lava.Sprite = lavaspritebox3;
 
             cCritterWallMoving pmovingwall = new cCritterWallMoving(
-                new cVector3(5.0f, 20.0f, 40.0f),
-                new cVector3(5.0f, 20.0f, 48.0f),
+                new cVector3(5.0f, 10.0f, 40.0f),
+                new cVector3(5.0f, 10.0f, 48.0f),
                 5,
                 2,
                 this);
