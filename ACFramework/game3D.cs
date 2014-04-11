@@ -929,18 +929,7 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
@@ -1009,18 +998,7 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
@@ -1086,18 +1064,7 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         } 
@@ -1170,19 +1137,8 @@ namespace ACFramework
 
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
-
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
@@ -1252,18 +1208,7 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
