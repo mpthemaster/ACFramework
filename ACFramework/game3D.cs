@@ -1007,7 +1007,7 @@ namespace ACFramework
                 Sprite.ModelState = State.Run;
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
                 addForce(new cForceObjectSeek(Player, 10.0f));
             }
             else
@@ -1097,7 +1097,7 @@ namespace ACFramework
                 Sprite.ModelState = State.Run;
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
                 addForce(new cForceObjectSeek(Player, 10.0f));
             }
             else
@@ -1186,7 +1186,7 @@ namespace ACFramework
                 Sprite.ModelState = State.Run;
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
                 addForce(new cForceObjectSeek(Player, 10.0f));
             }
             else
@@ -1277,7 +1277,7 @@ namespace ACFramework
                 Sprite.ModelState = State.Run;
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
                 addForce(new cForceObjectSeek(Player, 10.0f));
             }
             else
@@ -1367,7 +1367,7 @@ namespace ACFramework
                 Sprite.ModelState = State.Run;
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
                 addForce(new cForceObjectSeek(Player, 10.0f));
             }
             else
