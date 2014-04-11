@@ -310,7 +310,7 @@ namespace ACFramework
 
                 if (Health == 0)
                 {
-                    Sprite.State = State.KneelDying;
+                    Sprite.ModelState = State.KneelDying;
                 }
 
             }
