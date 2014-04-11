@@ -114,7 +114,7 @@ namespace ACFramework
                 //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
                 //so I had to do it in a backwards manner to get it to work.
                 cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
-                a.damage(2);
+                a.damage(20);
                 return true;
             }
             return false;
@@ -824,7 +824,7 @@ namespace ACFramework
             pwall3.Sprite = pspritebox3;
 
             cCritterLava lava = new cCritterLava(
-                new cVector3(0, -10, -15.0f),
+                new cVector3(0, -10, -25.0f),
                 new cVector3(0, -10, 0.0f),
                 16,
                 1,
@@ -833,14 +833,23 @@ namespace ACFramework
                 new cSpriteTextureBox(lava.Skeleton, BitmapRes.Graphics1, 1);
             lava.Sprite = lavaspritebox3;
 
-            cCritterWallMoving pmovingwall = new cCritterWallMoving(
-                new cVector3(5.0f, 10.0f, 40.0f),
-                new cVector3(5.0f, 10.0f, 48.0f),
-                5,
+            cCritterWallMoving movingwall = new cCritterWallMoving(
+                new cVector3(5.0f, -2, -8.0f),
+                new cVector3(5.0f, -2, 0.0f),
+                10,
                 2,
                 this);
-            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Wall3, 1);
-            pmovingwall.Sprite = testingmovingwallspritebox; 
+            cSpriteTextureBox movingwallspritebox = new cSpriteTextureBox(movingwall.Skeleton, BitmapRes.Wall3, 1);
+            movingwall.Sprite = movingwallspritebox;
+
+            cCritterWallMoving movingwall2 = new cCritterWallMoving(
+                new cVector3(-5.0f, -2, -25.0f),
+                new cVector3(-5.0f, -2, -10.0f),
+                9,
+                2,
+                this);
+            cSpriteTextureBox movingwallspritebox2 = new cSpriteTextureBox(movingwall2.Skeleton, BitmapRes.Wall3, 1);
+            movingwall2.Sprite = movingwallspritebox2; 
 
             wentThrough = true;
             startNewRoom = Age;
