@@ -232,7 +232,7 @@ namespace ACFramework
             Sprite = new cSpriteQuake(ModelsMD2.Homer);
             Sprite.SpriteAttitude = cMatrix3.scale(2, 0.8f, 0.4f);
             setRadius(0.5f); //Default cCritter.PLAYERRADIUS is 0.4.  
-            setHealth(10);
+            setHealth(100);
             moveTo(_movebox.LoCorner.add(new cVector3(0.0f, 0.0f, 2.0f)));
             WrapFlag = cCritter.CLAMP; //Use CLAMP so you stop dead at edges.
             Armed = true; //Let's use bullets.
@@ -310,11 +310,11 @@ namespace ACFramework
 
                 if (Health == 0)
                 {
-                    Sprite.setstate(State.KneelDying, 0, 171, StateType.Hold);
+                    Sprite.State = State.KneelDying;
                 }
 
             }
-            pcritter.die();
+            //pcritter.die();
             return true;
         }
 
@@ -989,9 +989,29 @@ namespace ACFramework
 
         public override void update(ACView pactiveview, float dt)
         {
-            base.update(pactiveview, dt); 
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+            base.update(pactiveview, dt);
+
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            if (distanceTo(Player) > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
          
         } 
 
@@ -1059,8 +1079,29 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+
+            
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            if (distanceTo(Player) > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+                //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
         }
 
@@ -1128,8 +1169,28 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.       
+
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            if (distanceTo(Player) > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.      
 
         } 
 
@@ -1199,8 +1260,28 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            if (distanceTo(Player) > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
         }
 
@@ -1269,8 +1350,28 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            if (distanceTo(Player) > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(0.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
         }
 
