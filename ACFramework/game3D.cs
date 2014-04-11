@@ -1075,6 +1075,15 @@ namespace ACFramework
             addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
             Density = 2.0f;
             MaxSpeed = 30.0f;
+            _armed = true;
+            _aimvector = new cVector3(0.0f, 1.0f);
+            _ageshoot = 4.0f;
+            _waitshoot = WAITSHOOT;
+            _bshooting = false;
+            _aimtoattitudelock = false;
+            _gunlength = GUNLENGTH;
+            
+
             if (pownergame != null) //Just to be safe.
                 Sprite = new cSpriteQuake(ModelsMD2.Cobra);
 
@@ -1119,9 +1128,17 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+/*
+            if (distanceTo(Player) < 20)
+            {
+                shoot();
+                clearForcelist();
+            }*/
             if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
                 delete_me(); //tell the game to remove yourself if you fall up to the hiz.       
 
+            //shoot();
         } 
 
         public override void die()
