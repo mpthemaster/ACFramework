@@ -268,6 +268,10 @@ namespace ACFramework
                     poisonAmount -= 1;
                     currentRecoverTime = recoverTime;
                 }
+                if (poisonAmount>6)
+                { 
+                    poisonAmount = 6;
+                }
             }
 
         }
@@ -843,9 +847,9 @@ namespace ACFramework
             movingwall.Sprite = movingwallspritebox;
 
             cCritterWallMoving movingwall2 = new cCritterWallMoving(
+                new cVector3(-5.0f, -2, -5.0f),
                 new cVector3(-5.0f, -2, -25.0f),
-                new cVector3(-5.0f, -2, -10.0f),
-                9,
+                2,
                 2,
                 this);
             cSpriteTextureBox movingwallspritebox2 = new cSpriteTextureBox(movingwall2.Skeleton, BitmapRes.Wall3, 1);
