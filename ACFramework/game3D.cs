@@ -818,9 +818,9 @@ namespace ACFramework
                 pwall.Sprite = pspritebox;
 
             cCritterWall pwall3 = new cCritterWall(
-                new cVector3(5.0f, -9, 20.0f),
-                new cVector3(5.0f, -9, 30.0f),
-                5,
+                new cVector3(5.0f, -5.1f, 18.85f),
+                new cVector3(5.0f, -13, 30.0f),
+                4.75f,
                 4,
                 this);
             cSpriteTextureBox pspritebox3 =
