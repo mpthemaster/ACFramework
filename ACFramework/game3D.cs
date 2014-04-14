@@ -788,7 +788,7 @@ namespace ACFramework
             Biota.purgeCritters("cCritterSnake");
             Biota.purgeCritters("cCritterChicken");
 
-            setBorder(15.0f, 20.0f, 80.0f);
+            setBorder(15.0f, 20.0f, 110.0f);
             cRealBox3 skeleton = new cRealBox3();
             skeleton.copy(_border);
             setSkyBox(skeleton);
@@ -800,7 +800,7 @@ namespace ACFramework
             SkyBox.setSideTexture(cRealBox3.HIY, BitmapRes.Metal1, 1);
 
             _seedcount = 0;
-            Player.setMoveBox(new cRealBox3(15.0f, 20.0f, 80.0f));
+            Player.setMoveBox(new cRealBox3(15.0f, 20.0f, 110.0f));
             float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
 			halfway down the hall, but we can offset it if we like. */
             float height = 0.1f * _border.YSize;
@@ -835,7 +835,7 @@ namespace ACFramework
                 1,
                 this);
             cSpriteTextureBox lavaspritebox3 =
-                new cSpriteTextureBox(lava.Skeleton, BitmapRes.Graphics1, 1);
+                new cSpriteTextureBox(lava.Skeleton, BitmapRes.Lava, 1);
             lava.Sprite = lavaspritebox3;
 
             cCritterWallMoving movingwall = new cCritterWallMoving(
