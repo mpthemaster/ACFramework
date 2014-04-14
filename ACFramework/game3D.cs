@@ -1180,15 +1180,15 @@ namespace ACFramework
         {
             addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
             addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
-            Density = 2.0f;
-            MaxSpeed = 30.0f;
-            _armed = true;
-            _aimvector = new cVector3(0.0f, 1.0f);
-            _ageshoot = 4.0f;
-            _waitshoot = WAITSHOOT;
-            _bshooting = false;
-            _aimtoattitudelock = false;
-            _gunlength = GUNLENGTH;
+            //Density = 2.0f;
+            //MaxSpeed = 30.0f;
+            //_armed = true;
+            //_aimvector = new cVector3(0.0f, 1.0f);
+            //_ageshoot = 4.0f;
+            WaitShoot = 5f;
+            _bshooting = true;
+            //_aimtoattitudelock = false;
+            //_gunlength = GUNLENGTH;
             
 
             if (pownergame != null) //Just to be safe.
@@ -1216,21 +1216,12 @@ namespace ACFramework
             Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
-        } 
-        
-
-
+        }
 
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
-/*
-            if (distanceTo(Player) < 20)
-            {
-                shoot();
-                clearForcelist();
-            }*/
 
             float playerDistance = distanceTo(Player);
             if (playerDistance > 20)
@@ -1257,6 +1248,23 @@ namespace ACFramework
                 addForce(new cForceObjectSeek(Player, 0.1f));
             }
 
+            aimAt(_ptarget);
+
+            //(2) Align gun with move direction if necessary.
+            if (_aimtoattitudelock)
+                AimVector = AttitudeTangent; /* Keep the gun pointed in the right direction. */
+            //(3) Shoot if possible.
+            if (!_armed || !_bshooting)
+                return;
+            /* If _age has been reset to 0.0, you need to get ageshoot back in synch. */
+            if (_age < _ageshoot)
+                _ageshoot = _age;
+            if ((_age - _ageshoot > _waitshoot)) //A shoot key is down 
+            {
+                shoot();
+                _ageshoot = _age;
+            } 
+
             //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
             //delete_me(); //tell the game to remove yourself if you fall up to the hiz.      
         } 
@@ -1281,6 +1289,24 @@ namespace ACFramework
             }
         }
 
+        public override float WaitShoot
+        {
+            set
+            {
+                _waitshoot = value;
+                _ageshoot = _age - Framework.randomOb.randomReal(0.0f, _waitshoot);
+                /* Do this so they don't all shoot at once,	when you have several of them. */
+            }
+        }
+
+        public override float Age
+        {
+            set
+            {
+                base.Age = value;   // will call cCritter setAge
+                WaitShoot = _waitshoot;
+            }
+        }
 
     }
 
