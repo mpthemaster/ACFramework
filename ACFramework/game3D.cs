@@ -321,7 +321,9 @@ namespace ACFramework
                 }
 
             }
-            //pcritter.die();
+
+            if (pcritter.IsKindOf("cCritterBullet"))
+                pcritter.die();
             return true;
         }
 
@@ -1061,7 +1063,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 10.0f));
+                addForce(new cForceObjectSeek(Player, 25.0f));
             }
             else
             {
@@ -1159,7 +1161,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 10.0f));
+                addForce(new cForceObjectSeek(Player, 15.0f));
             }
             else
             {
@@ -1493,7 +1495,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 10.0f));
+                addForce(new cForceObjectSeek(Player, 5.0f));
             }
             else
             {
