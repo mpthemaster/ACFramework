@@ -216,7 +216,6 @@ namespace ACFramework
     class cCritter3DPlayerHomer : cCritterArmedPlayer
     {
         private int poisonAmount = 0;
-
         public int keys = 0;
 
         private float recoverTime = 5;
@@ -310,7 +309,7 @@ namespace ACFramework
             else
             {
                 damage(1);
-                Framework.snd.play(Sound.Crunch);
+                //Framework.snd.play(Sound.Crunch);
 
                 if (Health == 0)
                 {
