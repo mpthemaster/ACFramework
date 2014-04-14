@@ -97,8 +97,44 @@ namespace ACFramework
                 return "cCritterWallMoving";
             }
         }
+    }
+
+    class cCritterLava : cCritterWall
+    {
+        public cCritterLava(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
+            : base(enda, endb, thickness, height, pownergame)
+        {
+        }
+
+        public override bool collide(cCritter pcritter)
+        {
+            bool collided = base.collide(pcritter);
+            if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
+            {
+                //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
+                //so I had to do it in a backwards manner to get it to work.
+                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
+                a.damage(20);
+                return true;
+            }
+            return false;
+        }
+
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterLava" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterLava";
+            }
+        }
     } 
-    
+
     class cCritterDoorLocked : cCritterWall
     {
 
@@ -180,7 +216,6 @@ namespace ACFramework
     class cCritter3DPlayerHomer : cCritterArmedPlayer
     {
         private int poisonAmount = 0;
-
         public int keys = 0;
 
         private float recoverTime = 5;
@@ -196,7 +231,7 @@ namespace ACFramework
             Sprite = new cSpriteQuake(ModelsMD2.Homer);
             Sprite.SpriteAttitude = cMatrix3.scale(2, 0.8f, 0.4f);
             setRadius(0.5f); //Default cCritter.PLAYERRADIUS is 0.4.  
-            setHealth(10);
+            setHealth(100);
             moveTo(_movebox.LoCorner.add(new cVector3(0.0f, 0.0f, 2.0f)));
             WrapFlag = cCritter.CLAMP; //Use CLAMP so you stop dead at edges.
             Armed = true; //Let's use bullets.
@@ -214,18 +249,7 @@ namespace ACFramework
             Attitude = new cMatrix3(new cVector3(0.0f, 0.0f, -1.0f), new cVector3(-1.0f, 0.0f, 0.0f),
                 new cVector3(0.0f, 1.0f, 0.0f), Position);
 
-            //Leaving just incase it needs to be enabled again.
-            //int begf = Framework.randomOb.random(0, 171);
-            //int endf = Framework.randomOb.random(0, 171);
-
-            //if (begf > endf)
-            //{
-            //    int temp = begf;
-            //    begf = endf;
-            //    endf = temp;
-            //}
-
-            //Sprite.setstate(State.Idle, begf, endf, StateType.Repeat);
+            Sprite.ModelState = State.Idle;
         }
 
         public override void update(ACView pactiveview, float dt)
@@ -242,6 +266,10 @@ namespace ACFramework
                 {
                     poisonAmount -= 1;
                     currentRecoverTime = recoverTime;
+                }
+                if (poisonAmount>6)
+                { 
+                    poisonAmount = 6;
                 }
             }
 
@@ -281,15 +309,15 @@ namespace ACFramework
             else
             {
                 damage(1);
-                Framework.snd.play(Sound.Crunch);
+                //Framework.snd.play(Sound.Crunch);
 
                 if (Health == 0)
                 {
-                    Sprite.setstate(State.KneelDying, 0, 171, StateType.Hold);
+                    Sprite.ModelState = State.KneelDying;
                 }
 
             }
-            pcritter.die();
+            //pcritter.die();
             return true;
         }
 
@@ -758,7 +786,7 @@ namespace ACFramework
             Biota.purgeCritters("cCritterSnake");
             Biota.purgeCritters("cCritterChicken");
 
-            setBorder(10.0f, 20.0f, 80.0f);
+            setBorder(15.0f, 20.0f, 80.0f);
             cRealBox3 skeleton = new cRealBox3();
             skeleton.copy(_border);
             setSkyBox(skeleton);
@@ -770,7 +798,7 @@ namespace ACFramework
             SkyBox.setSideTexture(cRealBox3.HIY, BitmapRes.Metal1, 1);
 
             _seedcount = 0;
-            Player.setMoveBox(new cRealBox3(10.0f, 20.0f, 80.0f));
+            Player.setMoveBox(new cRealBox3(15.0f, 20.0f, 80.0f));
             float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
 			halfway down the hall, but we can offset it if we like. */
             float height = 0.1f * _border.YSize;
@@ -779,26 +807,52 @@ namespace ACFramework
             seedCritters();
 
             cCritterWall pwall = new cCritterWall(
-                new cVector3(_border.Midx + 2.0f, ycenter, zpos),
-                new cVector3(_border.Hix, ycenter, zpos),
-                height, //thickness param for wall's dy which goes perpendicular to the 
-                //baseline established by the frist two args, up the screen 
-                wallthickness, //height argument for this wall's dz  goes into the screen 
+                new cVector3(5.0f, -6, 15.0f),
+                new cVector3(5.0f, -6, 20.0f),
+                5,
+                5,
                 this);
             cSpriteTextureBox pspritebox =
-                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 16); //Sets all sides 
-            /* We'll tile our sprites three times along the long sides, and on the
-        short ends, we'll only tile them once, so we reset these two. */
-            pwall.Sprite = pspritebox;
+                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 1); 
+                pwall.Sprite = pspritebox;
 
-            cCritterWallMoving pmovingwall = new cCritterWallMoving(
-                new cVector3(5.0f, 20.0f, 40.0f),
-                new cVector3(5.0f, 20.0f, 48.0f),
+            cCritterWall pwall3 = new cCritterWall(
+                new cVector3(5.0f, -5.1f, 18.85f),
+                new cVector3(5.0f, -13, 30.0f),
+                4.75f,
+                4,
+                this);
+            cSpriteTextureBox pspritebox3 =
+                new cSpriteTextureBox(pwall3.Skeleton, BitmapRes.Wall3, 1);
+            pwall3.Sprite = pspritebox3;
+
+            cCritterLava lava = new cCritterLava(
+                new cVector3(0, -10, -25.0f),
+                new cVector3(0, -10, 0.0f),
+                16,
+                1,
+                this);
+            cSpriteTextureBox lavaspritebox3 =
+                new cSpriteTextureBox(lava.Skeleton, BitmapRes.Graphics1, 1);
+            lava.Sprite = lavaspritebox3;
+
+            cCritterWallMoving movingwall = new cCritterWallMoving(
+                new cVector3(5.0f, -2, -6.0f),
+                new cVector3(5.0f, -2, 4.0f),
+                10,
+                2,
+                this);
+            cSpriteTextureBox movingwallspritebox = new cSpriteTextureBox(movingwall.Skeleton, BitmapRes.Wall3, 1);
+            movingwall.Sprite = movingwallspritebox;
+
+            cCritterWallMoving movingwall2 = new cCritterWallMoving(
+                new cVector3(-5.0f, -2, -10.0f),
+                new cVector3(-5.0f, -2, -20.0f),
                 5,
                 2,
                 this);
-            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Wall3, 1);
-            pmovingwall.Sprite = testingmovingwallspritebox; 
+            cSpriteTextureBox movingwallspritebox2 = new cSpriteTextureBox(movingwall2.Skeleton, BitmapRes.Wall3, 1);
+            movingwall2.Sprite = movingwallspritebox2; 
 
             wentThrough = true;
             startNewRoom = Age;
@@ -940,27 +994,44 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
 
         public override void update(ACView pactiveview, float dt)
         {
-            base.update(pactiveview, dt); 
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+            base.update(pactiveview, dt);
+
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
          
         } 
 
@@ -1020,18 +1091,7 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
@@ -1039,8 +1099,37 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+
+            
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+                //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
         }
 
@@ -1106,18 +1195,7 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         } 
@@ -1135,10 +1213,34 @@ namespace ACFramework
                 shoot();
                 clearForcelist();
             }*/
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.       
 
-            //shoot();
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.      
         } 
 
         public override void die()
@@ -1198,19 +1300,8 @@ namespace ACFramework
 
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
-
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
@@ -1218,8 +1309,36 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
         }
 
@@ -1280,18 +1399,7 @@ namespace ACFramework
             if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
                 addForce(new cForceObjectSeek(Player, 0.5f));
 
-            int begf = Framework.randomOb.random(0, 171);
-            int endf = Framework.randomOb.random(0, 171);
-
-            if (begf > endf)
-            {
-                int temp = begf;
-                begf = endf;
-                endf = temp;
-            }
-
-            Sprite.setstate(State.Jump, begf, endf, StateType.Repeat);
-
+            Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
         }
@@ -1299,8 +1407,36 @@ namespace ACFramework
         public override void update(ACView pactiveview, float dt)
         {
             base.update(pactiveview, dt);
-            if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
-                delete_me(); //tell the game to remove yourself if you fall up to the hiz.
+
+            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
+            {
+                Sprite.ModelState = State.Run;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 10.0f));
+            }
+            else
+            {
+                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                addForce(new cForceObjectSeek(Player, 0.1f));
+            }
+
+            //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
+            //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
         }
 
