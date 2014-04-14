@@ -627,9 +627,11 @@ namespace ACFramework
 		private bool doorcollision;
         private bool wentThrough = false;
         private float startNewRoom;
+        private int currentRoom;
 		
 		public cGame3D() 
-		{ 
+		{
+            currentRoom = 1;
 			doorcollision = false; 
 			_menuflags &= ~ cGame.MENU_BOUNCEWRAP; 
 			_menuflags |= cGame.MENU_HOPPER; //Turn on hopper listener option.
@@ -852,8 +854,17 @@ namespace ACFramework
                 2,
                 this);
             cSpriteTextureBox movingwallspritebox2 = new cSpriteTextureBox(movingwall2.Skeleton, BitmapRes.Wall3, 1);
-            movingwall2.Sprite = movingwallspritebox2; 
+            movingwall2.Sprite = movingwallspritebox2;
 
+            cCritterDoor endDoor = new cCritterDoor(
+                new cVector3(_border.Lox, _border.Loy, _border.Midz),
+                new cVector3(_border.Lox, _border.Midy - 3, _border.Midz),
+                0.6f, 2, this);
+            cSpriteTextureBox pspritedoor =
+                new cSpriteTextureBox(endDoor.Skeleton, BitmapRes.Door);
+            endDoor.Sprite = pspritedoor;
+
+            currentRoom = 2;
             wentThrough = true;
             startNewRoom = Age;
         }
@@ -950,7 +961,14 @@ namespace ACFramework
 
             if (doorcollision == true)
             {
-                setRoomHallway();
+                if (currentRoom == 1)
+                {
+                    setRoomHallway();
+                }
+                else if (currentRoom == 2)
+                {
+                    //set next room
+                }
                 doorcollision = false;
             }
 		} 
