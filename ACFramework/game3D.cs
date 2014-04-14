@@ -1285,6 +1285,7 @@ namespace ACFramework
                 _ageshoot = _age;
             if ((_age - _ageshoot > _waitshoot)) //A shoot key is down 
             {
+                
                 shoot();
                 _ageshoot = _age;
             } 
@@ -1525,6 +1526,28 @@ namespace ACFramework
             get
             {
                 return "cCritterMiniBot";
+            }
+        }
+    }
+
+    class cCritterBulletPoison : cCritterBullet
+    {
+        public cCritterBulletPoison()
+        {
+
+        }
+
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterBulletPoison" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterBulletPoison";
             }
         }
     }
