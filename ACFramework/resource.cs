@@ -123,7 +123,7 @@ namespace ACFramework
             }
             catch (OpenTK.Audio.AudioDeviceException)
             {
-                MessageBox.Show("Your computer either has its speakers disabled, you have no sound device, or you have an incompatible sound device.  You may continue to use the AC Framework without sound.");
+                //MessageBox.Show("Your computer either has its speakers disabled, you have no sound device, or you have an incompatible sound device.  You may continue to use the AC Framework without sound.");
                 nosound = true;
             }
 
