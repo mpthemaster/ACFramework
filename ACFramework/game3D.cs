@@ -1005,7 +1005,15 @@ namespace ACFramework
 
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
-            if (distanceTo(Player) > 1.5)
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
             {
                 Sprite.ModelState = State.Run;
                 clearForcelist();
@@ -1095,7 +1103,15 @@ namespace ACFramework
             
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
-            if (distanceTo(Player) > 1.5)
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
             {
                 Sprite.ModelState = State.Run;
                 clearForcelist();
@@ -1184,7 +1200,15 @@ namespace ACFramework
 
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
-            if (distanceTo(Player) > 1.5)
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
             {
                 Sprite.ModelState = State.Run;
                 clearForcelist();
@@ -1275,7 +1299,15 @@ namespace ACFramework
 
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
-            if (distanceTo(Player) > 1.5)
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
             {
                 Sprite.ModelState = State.Run;
                 clearForcelist();
@@ -1365,7 +1397,15 @@ namespace ACFramework
 
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
-            if (distanceTo(Player) > 1.5)
+            float playerDistance = distanceTo(Player);
+            if (playerDistance > 20)
+            {
+                Sprite.ModelState = State.Idle;
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 1.5)
             {
                 Sprite.ModelState = State.Run;
                 clearForcelist();
