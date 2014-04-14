@@ -884,9 +884,9 @@ namespace ACFramework
             movingwall2.Sprite = movingwallspritebox2;
 
             cCritterDoor endDoor = new cCritterDoor(
-                new cVector3(_border.Lox, _border.Loy, _border.Midz),
-                new cVector3(_border.Lox, _border.Midy - 3, _border.Midz),
-                0.6f, 2, this);
+                new cVector3(0, -10, _border.Loz),
+                new cVector3(0, -5, _border.Loz),
+                2, 0.6f, this);
             cSpriteTextureBox pspritedoor =
                 new cSpriteTextureBox(endDoor.Skeleton, BitmapRes.Door);
             endDoor.Sprite = pspritedoor;
@@ -993,7 +993,7 @@ namespace ACFramework
                 }
                 else if (currentRoom == 2)
                 {
-                    //set next room
+                    setRoom1();
                 }
                 doorcollision = false;
             }
