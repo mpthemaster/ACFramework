@@ -213,6 +213,10 @@ namespace ACFramework
         }
     } 
 
+    /*
+     * Bug: changing the player's max speed because of the poison also slows down the player's falling speed, 
+     * and if he is already high up before falling at a slow speed, he can repeatedly jump in the air.
+     */
     class cCritter3DPlayerHomer : cCritterArmedPlayer
     {
         private int poisonAmount = 0;
@@ -828,6 +832,27 @@ namespace ACFramework
                 new cSpriteTextureBox(pwall3.Skeleton, BitmapRes.Wall3, 1);
             pwall3.Sprite = pspritebox3;
 
+            //the ramp after the lava
+            cCritterWall pwall4 = new cCritterWall(
+                new cVector3(0.0f, -4f, -20f),
+                new cVector3(0.0f, -13, -40.0f),
+                15f,
+                5f,
+                this);
+            cSpriteTextureBox pspritebox4 =
+                new cSpriteTextureBox(pwall4.Skeleton, BitmapRes.Wall3, 1);
+            pwall4.Sprite = pspritebox4;
+            //the wall stopping the play from jumping onto the ramp after the lava
+            cCritterWall pwall5 = new cCritterWall(
+                new cVector3(0.0f, -4f, -20.0f),
+                new cVector3(0.0f, -13, -20.0f),
+                15f,
+                9f,
+                this);
+            cSpriteTextureBox pspritebox5 =
+                new cSpriteTextureBox(pwall5.Skeleton, BitmapRes.Wall3, 1);
+            pwall5.Sprite = pspritebox5;
+
             cCritterLava lava = new cCritterLava(
                 new cVector3(0, -10, -25.0f),
                 new cVector3(0, -10, 0.0f),
@@ -866,7 +891,6 @@ namespace ACFramework
 
             currentRoom = 2;
             wentThrough = true;
-            startNewRoom = Age;
         }
 		
         //The commented out loop causes a bug that prevents the player from jumping properly.
