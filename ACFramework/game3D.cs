@@ -862,9 +862,19 @@ namespace ACFramework
                 new cSpriteTextureBox(pwall5.Skeleton, BitmapRes.Wall3, 1);
             pwall5.Sprite = pspritebox5;
 
+            cCritterWall pwall6 = new cCritterWall(
+                new cVector3(0, -10, 5),
+                new cVector3(0, -10, 4),
+                15f,
+                2,
+                this);
+            cSpriteTextureBox pspritebox6 =
+                new cSpriteTextureBox(pwall6.Skeleton, BitmapRes.Wall3, 1);
+            pwall6.Sprite = pspritebox6;
+
             cCritterLava lava = new cCritterLava(
                 new cVector3(0, -10, -25.0f),
-                new cVector3(0, -10, 0.0f),
+                new cVector3(0, -10, 4.0f),
                 16,
                 1,
                 this);
