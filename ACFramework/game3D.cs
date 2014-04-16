@@ -1284,9 +1284,12 @@ namespace ACFramework
                 _ageshoot = _age;
             } 
 
+
             //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
             //delete_me(); //tell the game to remove yourself if you fall up to the hiz.      
         } 
+
+        
 
         public override void die()
         {
@@ -1565,10 +1568,22 @@ namespace ACFramework
         public cCritterBulletPoison()
         {
 
-           
-            
+
+
+            cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
+            bulletsprite.FillColor = Color.HotPink;
+            Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
         }
-        
+
+        public override cCritterBullet Create()
+        {
+            return new cCritterBulletPoison();
+        }
+
+        public override void initialize(cCritterArmed pshooter)
+        {
+            base.initialize(pshooter);  // calls the cCritterBullet initialize 
+        }
 
         public override bool IsKindOf(string str)
         {
@@ -1583,4 +1598,42 @@ namespace ACFramework
             }
         }
     }
+
+
+
+    class cCritterBulletEggs : cCritterBullet
+    {
+
+        public cCritterBulletEggs()
+        {
+            cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
+            bulletsprite.FillColor = Color.HotPink;
+            Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
+        }
+
+        public override cCritterBullet Create()
+        {
+            return new cCritterBulletEggs();
+        }
+
+        public override void initialize(cCritterArmed pshooter)
+        {
+            base.initialize(pshooter);  // calls the cCritterBullet initialize 
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterBulletEggs" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterBulletEggs";
+            }
+        }
+
+    }
+
 }
