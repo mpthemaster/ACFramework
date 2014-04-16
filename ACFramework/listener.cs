@@ -443,6 +443,7 @@ namespace ACFramework
 
     class cListenerPlayer : cListenerScooterYHopper
     {
+        bool cheaterPrevious = false;
         public cListenerPlayer(float walksp = 6.0f, float hopst = 2.0f)
             : base(walksp, hopst)
         {
@@ -472,11 +473,20 @@ namespace ACFramework
             bool down = Framework.keydev[vk.S];
             bool pageup = Framework.keydev[vk.J];
             bool cheater = Framework.keydev[vk.Home];
-            if (cheater)
+
+            if (cheater==false && cheaterPrevious==true) //If the key was pressed down last frame, but isn't now.
             {
                 cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
-                a.cheater = true;
+                if (a.cheater)
+                {
+                    a.cheater = false;
+                }
+                else
+                {
+                    a.cheater = true;
+                }
             }
+            cheaterPrevious = cheater;
 
             if (!_hopping && up)
             {
