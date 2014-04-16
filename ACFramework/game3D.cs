@@ -98,6 +98,42 @@ namespace ACFramework
             }
         }
     }
+    class cCritterHealth : cCritterWall
+    {
+        public cCritterHealth(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
+            : base(enda, endb, thickness, height, pownergame)
+        {
+        }
+
+        public override bool collide(cCritter pcritter)
+        {
+            bool collided = base.collide(pcritter);
+            if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
+            {
+                //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
+                //so I had to do it in a backwards manner to get it to work.
+                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
+                a.addHealth(20);
+                die();
+                return true;
+            }
+            return false;
+        }
+
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterHealth" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterHealth";
+            }
+        }
+    } 
 
     class cCritterLava : cCritterWall
     {
@@ -703,6 +739,15 @@ namespace ACFramework
             cSpriteTextureBox testingspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1); 
             pkey.Sprite = testingspritebox;
 
+            cCritterHealth phealth = new cCritterHealth(
+                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz),
+                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz + 2.0f),
+                2,
+                2,
+                this);
+            cSpriteTextureBox healthspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Health, 1);
+            phealth.Sprite = healthspritebox;
+
 
             cCritterWallMoving pmovingwall = new cCritterWallMoving(
                 new cVector3(_border.Midx + 5.0f, ycenter-20.0f, _border.Midz),
@@ -911,6 +956,58 @@ namespace ACFramework
             currentRoom = 2;
             wentThrough = true;
         }
+        public void setRoom3()
+        {
+            Biota.purgeCritters("cCritterWall");
+            Biota.purgeCritters("cCritterTreasure");
+            Biota.purgeCritters("cCritter3Dcharacter");
+            /* Because our critters inherited directly from cCritter, these following lines
+             * had to be put in because out critters aren't deleted in the above line.
+             */
+            Biota.purgeCritters("cCritterBigHead");
+            Biota.purgeCritters("cCritterSailorVenus");
+            Biota.purgeCritters("cCritterMiniBot");
+            Biota.purgeCritters("cCritterSnake");
+            Biota.purgeCritters("cCritterChicken");
+            Biota.purgeCritters("cCritterBigHead");
+            Biota.purgeCritters("cCritterSailorVenus");
+            Biota.purgeCritters("cCritterMiniBot");
+            Biota.purgeCritters("cCritterSnake");
+            Biota.purgeCritters("cCritterChicken");
+
+            setBorder(50.0f, 50.0f, 50.0f);
+            cRealBox3 skeleton = new cRealBox3();
+            skeleton.copy(_border);
+            setSkyBox(skeleton);
+            SkyBox.setSideTexture(cRealBox3.HIX, BitmapRes.Wall1, 2);
+            SkyBox.setSideTexture(cRealBox3.LOX, BitmapRes.Wall1, 2);
+            SkyBox.setSideTexture(cRealBox3.LOY, BitmapRes.Wall6, 2);
+            SkyBox.setSideTexture(cRealBox3.HIZ, BitmapRes.Concrete, 1);
+            SkyBox.setSideTexture(cRealBox3.LOZ, BitmapRes.Concrete, 1);
+            SkyBox.setSideTexture(cRealBox3.HIY, BitmapRes.Metal1, 1);
+
+            _seedcount = 0;
+            Player.setMoveBox(new cRealBox3(50.0f, 50.0f, 50.0f));
+            float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
+			halfway down the hall, but we can offset it if we like. */
+            float height = 0.1f * _border.YSize;
+            float ycenter = -_border.YRadius + height / 2.0f;
+            float wallthickness = cGame3D.WALLTHICKNESS;
+            seedCritters();
+            /*
+            cCritterWall pwall = new cCritterWall(
+                new cVector3(5.0f, -6, 15.0f),
+                new cVector3(5.0f, -6, 20.0f),
+                5,
+                5,
+                this);
+            cSpriteTextureBox pspritebox =
+                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 1);
+            pwall.Sprite = pspritebox;
+            */
+            currentRoom = 2;
+            wentThrough = true;
+        }
 		
         //The commented out loop causes a bug that prevents the player from jumping properly.
 		public override void seedCritters() 
@@ -931,7 +1028,7 @@ namespace ACFramework
             new cCritterSailorVenus(this);
             new cCritterMiniBot(this);
             new cCritterSnake(this);
-             new cCritterChicken(this);
+            new cCritterChicken(this);
 		} 
 
 		
@@ -1010,9 +1107,19 @@ namespace ACFramework
                 }
                 else if (currentRoom == 2)
                 {
-                    setRoom1();
+                    setRoom3();
                 }
                 doorcollision = false;
+            }
+            if (false/*  */)
+            {
+                cCritterDoor endDoor = new cCritterDoor(
+                    new cVector3(0, -10, _border.Loz),
+                    new cVector3(0, -5, _border.Loz),
+                    2, 0.6f, this);
+                cSpriteTextureBox pspritedoor =
+                    new cSpriteTextureBox(endDoor.Skeleton, BitmapRes.Door);
+                endDoor.Sprite = pspritedoor;
             }
 		} 
 		
