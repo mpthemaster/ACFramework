@@ -471,7 +471,13 @@ namespace ACFramework
             bool up = Framework.keydev[vk.W];
             bool down = Framework.keydev[vk.S];
             bool pageup = Framework.keydev[vk.J];
-            bool pagedown = Framework.keydev[vk.L];
+            bool cheater = Framework.keydev[vk.Home];
+            if (cheater)
+            {
+                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
+                a.cheater = true;
+            }
+
             if (!_hopping && up)
             {
                 pcritter.Velocity = pcritter.AttitudeTangent.mult(pcritter.MaxSpeed);
@@ -492,7 +498,7 @@ namespace ACFramework
             pcritter.Velocity = new cVector3(pcritter.Velocity.X, yvelocity, pcritter.Velocity.Z);
             //	Real inreversesign = inreverse?-1.0:1.0; 
 
-            if (!_hopping && !up && !down && !left && !right && !pagedown && !pageup) //Added !up && !down
+            if (!_hopping && !up && !down && !left && !right && !pageup) //Added !up && !down
             {
                 pcritter.Sprite.ModelState = State.Idle;
                 return;

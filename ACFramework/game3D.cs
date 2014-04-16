@@ -222,6 +222,8 @@ namespace ACFramework
         private int poisonAmount = 0;
         public int keys = 0;
 
+        public bool cheater = false;
+
         private float recoverTime = 5;
         private float currentRecoverTime = 0;
 
@@ -276,7 +278,10 @@ namespace ACFramework
                     poisonAmount = 6;
                 }
             }
-
+            if (cheater)
+            {
+                Health = 100;
+            }
         }
 
         public override bool collide(cCritter pcritter)
@@ -773,6 +778,7 @@ namespace ACFramework
             pwall.Sprite = pspritebox;
             wentThrough = true;
             startNewRoom = Age;
+            currentRoom = 1;
         }
 
 
@@ -878,7 +884,7 @@ namespace ACFramework
             cCritterWallMoving movingwall2 = new cCritterWallMoving(
                 new cVector3(-5.0f, -2, -10.0f),
                 new cVector3(-5.0f, -2, -20.0f),
-                5,
+                7,
                 2,
                 this);
             cSpriteTextureBox movingwallspritebox2 = new cSpriteTextureBox(movingwall2.Skeleton, BitmapRes.Wall3, 1);
