@@ -748,6 +748,7 @@ namespace ACFramework
 	        cRealBox3 skeleton = new cRealBox3();
             skeleton.copy( _border );
 	        setSkyBox(skeleton);
+            
 	        SkyBox.setAllSidesTexture( BitmapRes.Graphics1, 2 );
 	        SkyBox.setSideTexture( cRealBox3.LOY, BitmapRes.Concrete );
 	        SkyBox.setSideSolidColor( cRealBox3.HIY, Color.Blue );
@@ -1206,19 +1207,15 @@ namespace ACFramework
         {
             addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
             addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
-            //Density = 2.0f;
-            //MaxSpeed = 30.0f;
-            //_armed = true;
-            //_aimvector = new cVector3(0.0f, 1.0f);
-            //_ageshoot = 4.0f;
-            WaitShoot = 5f;
+            
+            WaitShoot = 1f;
             _bshooting = true;
-            //_aimtoattitudelock = false;
-            //_gunlength = GUNLENGTH;
+           
             
 
             if (pownergame != null) //Just to be safe.
                 Sprite = new cSpriteQuake(ModelsMD2.Cobra);
+            
 
             //Stops cSpriteQuake from tumbling.
             AttitudeToMotionLock = false;
@@ -1243,6 +1240,7 @@ namespace ACFramework
 
             _wrapflag = cCritter.BOUNCE;
         }
+        
 
         public override void update(ACView pactiveview, float dt)
         {
@@ -1315,6 +1313,8 @@ namespace ACFramework
                 return "cCritterSnake";
             }
         }
+      
+        
 
         public override float WaitShoot
         {
@@ -1335,7 +1335,7 @@ namespace ACFramework
             }
         }
 
-    }
+     }
 
     class cCritterChicken : cCritterArmed
     {
@@ -1343,10 +1343,15 @@ namespace ACFramework
         public cCritterChicken(cGame pownergame)
             : base(pownergame)
         {
-            addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-            addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
+            
+            WaitShoot = 1f;
+            _bshooting = true;
             Density = 2.0f;
             MaxSpeed = 30.0f;
+
+            addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+            addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
+            
             if (pownergame != null) //Just to be safe.
                 Sprite = new cSpriteQuake(ModelsMD2.Chicken);
 
@@ -1408,6 +1413,24 @@ namespace ACFramework
                 addForce(new cForceObjectSeek(Player, 0.1f));
             }
 
+            aimAt(_ptarget);
+
+            //(2) Align gun with move direction if necessary.
+            if (_aimtoattitudelock)
+                AimVector = AttitudeTangent; /* Keep the gun pointed in the right direction. */
+            //(3) Shoot if possible.
+            if (!_armed || !_bshooting)
+                return;
+            /* If _age has been reset to 0.0, you need to get ageshoot back in synch. */
+            if (_age < _ageshoot)
+                _ageshoot = _age;
+            if ((_age - _ageshoot > _waitshoot)) //A shoot key is down 
+            {
+
+                shoot();
+                _ageshoot = _age;
+            } 
+
             //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
             //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
@@ -1417,6 +1440,25 @@ namespace ACFramework
         {
             Player.addScore(Value);
             base.die();
+        }
+
+        public override float WaitShoot
+        {
+            set
+            {
+                _waitshoot = value;
+                _ageshoot = _age - Framework.randomOb.randomReal(0.0f, _waitshoot);
+                /* Do this so they don't all shoot at once,	when you have several of them. */
+            }
+        }
+
+        public override float Age
+        {
+            set
+            {
+                base.Age = value;   // will call cCritter setAge
+                WaitShoot = _waitshoot;
+            }
         }
 
 
@@ -1537,8 +1579,10 @@ namespace ACFramework
         public cCritterBulletPoison()
         {
 
+           
+            
         }
-
+        
 
         public override bool IsKindOf(string str)
         {
