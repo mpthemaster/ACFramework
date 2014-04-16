@@ -1041,10 +1041,6 @@ namespace ACFramework
             /* I put them ahead of the player  */
             randomizeVelocity(0.0f, 30.0f, false);
 
-
-            if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
-                addForce(new cForceObjectSeek(Player, 0.5f));
-
             Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
@@ -1070,7 +1066,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 25.0f));
+                addForce(new cForceObjectSeek(Player, 35.0f));
             }
             else
             {
@@ -1138,10 +1134,6 @@ namespace ACFramework
             /* I put them ahead of the player  */
             randomizeVelocity(0.0f, 30.0f, false);
 
-
-            if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
-                addForce(new cForceObjectSeek(Player, 0.5f));
-
             Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
@@ -1168,7 +1160,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 15.0f));
+                addForce(new cForceObjectSeek(Player, 25.0f));
             }
             else
             {
@@ -1238,10 +1230,6 @@ namespace ACFramework
             /* I put them ahead of the player  */
             randomizeVelocity(0.0f, 30.0f, false);
 
-
-            if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
-                addForce(new cForceObjectSeek(Player, 0.5f));
-
             Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
@@ -1267,7 +1255,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 10.0f));
+                addForce(new cForceObjectSeek(Player, 20.0f));
             }
             else
             {
@@ -1378,10 +1366,6 @@ namespace ACFramework
                 new cVector3(_movebox.Hix, _movebox.Loy, _movebox.Midz - 1.0f)));
             /* I put them ahead of the player  */
             randomizeVelocity(0.0f, 30.0f, false);
-
-
-            if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
-                addForce(new cForceObjectSeek(Player, 0.5f));
             
             Sprite.ModelState = State.Idle;
 
@@ -1408,7 +1392,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 10.0f));
+                addForce(new cForceObjectSeek(Player, 20.0f));
             }
             else
             {
@@ -1514,10 +1498,6 @@ namespace ACFramework
             /* I put them ahead of the player  */
             randomizeVelocity(0.0f, 30.0f, false);
 
-
-            if (pownergame != null) //Then we know we added this to a game so pplayer() is valid 
-                addForce(new cForceObjectSeek(Player, 0.5f));
-
             Sprite.ModelState = State.Idle;
 
             _wrapflag = cCritter.BOUNCE;
@@ -1543,7 +1523,7 @@ namespace ACFramework
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 5.0f));
+                addForce(new cForceObjectSeek(Player, 15.0f));
             }
             else
             {
