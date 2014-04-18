@@ -675,6 +675,8 @@ namespace ACFramework
         private bool wentThrough = false;
         private float startNewRoom;
         private int currentRoom;
+        private int killcount = 0; //how many kills the player has gotten in room 3
+        private float timeToSpawn = 0.0f; //how long until more critters spawn in room 3.
 		
 		public cGame3D() 
 		{
@@ -993,7 +995,7 @@ namespace ACFramework
             float height = 0.1f * _border.YSize;
             float ycenter = -_border.YRadius + height / 2.0f;
             float wallthickness = cGame3D.WALLTHICKNESS;
-            seedCritters();
+            Player.moveTo(new cVector3(0.0f, -30.0f ,0.0f)); 
             /*
             cCritterWall pwall = new cCritterWall(
                 new cVector3(5.0f, -6, 15.0f),
@@ -1005,7 +1007,7 @@ namespace ACFramework
                 new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 1);
             pwall.Sprite = pspritebox;
             */
-            currentRoom = 2;
+            currentRoom = 3;
             wentThrough = true;
         }
 		
@@ -1099,6 +1101,32 @@ namespace ACFramework
                 wentThrough = false;
             }
 
+            if (currentRoom == 3)
+            {
+                //it's hard to believe that adjustGameParameters doesn't have dt already passed into it.
+                timeToSpawn -= Framework.pdoc.getdt(); 
+
+                if (timeToSpawn <=0)
+                {
+                    //create more critters to fight.
+                    //I can't use seedCritters because it moves the player to the start.
+                    //I used randomize position because they need to spawn anywhere rather than
+                    //just one end of the room.
+                    cCritterBigHead a = new cCritterBigHead(this);
+                    a.randomizePosition();
+                    cCritterSailorVenus b = new cCritterSailorVenus(this);
+                    b.randomizePosition();
+                    cCritterMiniBot c= new cCritterMiniBot(this);
+                    c.randomizePosition();
+                    cCritterSnake d = new cCritterSnake(this);
+                    d.randomizePosition();
+                    cCritterChicken e = new cCritterChicken(this);
+                    e.randomizePosition();
+
+                    timeToSpawn = 5.0f;
+                }
+            }
+
             if (doorcollision == true)
             {
                 if (currentRoom == 1)
@@ -1109,17 +1137,11 @@ namespace ACFramework
                 {
                     setRoom3();
                 }
+                else if (currentRoom ==3 )
+                {
+                    //you win stuff here.
+                }
                 doorcollision = false;
-            }
-            if (false/*  */)
-            {
-                cCritterDoor endDoor = new cCritterDoor(
-                    new cVector3(0, -10, _border.Loz),
-                    new cVector3(0, -5, _border.Loz),
-                    2, 0.6f, this);
-                cSpriteTextureBox pspritedoor =
-                    new cSpriteTextureBox(endDoor.Skeleton, BitmapRes.Door);
-                endDoor.Sprite = pspritedoor;
             }
 		} 
 		
