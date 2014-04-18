@@ -287,8 +287,43 @@ namespace ACFramework
             return str == "cForceObjectSeek" || base.IsKindOf( str );
         }
 		
-	} 
-	
+	}
+
+    class cForceFlyingObjectSeek : cForceObject
+    {
+
+        public cForceFlyingObjectSeek() { }
+
+        public cForceFlyingObjectSeek(cCritter pnode, float maxacceleration) :
+            base(pnode) { _intensity = maxacceleration; }
+
+        public override cVector3 force(cCritter pcritter)
+        {
+            if (_pnode == null)
+                return new cVector3(0.0f, 0.0f, 0.0f);
+            cVector3 pursueforcevector =
+                (pcritter.directionTo(_pnode).mult(pcritter.MaxSpeed)).sub(pcritter.Velocity);
+            pursueforcevector.Magnitude = _intensity;
+            pursueforcevector.multassign(pcritter.Mass);
+            cVector3 p = new cVector3();
+            p.set(pursueforcevector.X, 0f, pursueforcevector.Z);
+            return p;
+        }
+
+        public override cForce copy()
+        {
+            cForceObjectSeek f = new cForceObjectSeek();
+            f.copy(this);
+            return f;
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cForceFlyingObjectSeek" || base.IsKindOf(str);
+        }
+
+    } 
+
 	class cForceClass : cForce 
 	{ 
 		protected string _pnodeclass; /* Default is RUNTIME_CLASS(cBullet).  Note that the destructor

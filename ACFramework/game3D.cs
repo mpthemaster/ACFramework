@@ -1485,7 +1485,7 @@ namespace ACFramework
             Density = 2.0f;
             MaxSpeed = 30.0f;
 
-            addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+            //addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
             addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
             
             if (pownergame != null) //Just to be safe.
@@ -1505,7 +1505,7 @@ namespace ACFramework
             setRadius(0.3f);
             MinTwitchThresholdSpeed = 4.0f; //Means sprite doesn't switch direction unless it's moving fast 
             randomizePosition(new cRealBox3(new cVector3(_movebox.Lox, _movebox.Loy, _movebox.Loz + 4.0f),
-                new cVector3(_movebox.Hix, _movebox.Loy, _movebox.Midz - 1.0f)));
+                new cVector3(_movebox.Hix, _movebox.Hiy - 1f, _movebox.Midz - 1.0f)));
             /* I put them ahead of the player  */
             randomizeVelocity(0.0f, 30.0f, false);
             
@@ -1521,28 +1521,28 @@ namespace ACFramework
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
             float playerDistance = distanceTo(Player);
-            if (playerDistance > 30)
+            if (playerDistance > 50)
             {
                 Sprite.ModelState = State.Idle;
                 clearForcelist();
-                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                //addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
             }
             else if (playerDistance > 1.5)
             {
                 Sprite.ModelState = State.Run;
                 clearForcelist();
-                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                //addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 20.0f));
+                addForce(new cForceFlyingObjectSeek(Player, 40.0f));
             }
             else
             {
                 Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
                 clearForcelist();
-                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                //addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 0.1f));
+                addForce(new cForceFlyingObjectSeek(Player, 0.1f));
             }
 
             aimAt(_ptarget);
