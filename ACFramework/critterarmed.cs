@@ -807,6 +807,7 @@ namespace ACFramework
 		{ 
 			if (!( _shieldflag || recentlyDamaged())) 
 			{ 
+
 				Framework.snd.play( DAMAGESOUND ); 
 		/* In some games we might want to recenter the player after damage, but for now let's not. */ 
 		//		_position.setZero(); 

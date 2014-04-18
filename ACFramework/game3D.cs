@@ -370,7 +370,7 @@ namespace ACFramework
 
         public override cCritterBullet shoot()
         {
-            Framework.snd.play(Sound.LaserFire);
+            Framework.snd.play(Sound.plutonium);
             return base.shoot();
         }
 
