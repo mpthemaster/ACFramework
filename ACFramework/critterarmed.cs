@@ -904,6 +904,77 @@ namespace ACFramework
             }
 		}
 	}
+
+    class cCritterBulletPoison : cCritterBullet
+    {
+        public cCritterBulletPoison()
+        {
+
+
+
+            cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
+            bulletsprite.FillColor = Color.HotPink;
+            Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
+        }
+
+        public override cCritterBullet Create()
+        {
+            return new cCritterBulletPoison();
+        }
+
+        public override void initialize(cCritterArmed pshooter)
+        {
+            base.initialize(pshooter);  // calls the cCritterBullet initialize 
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterBulletPoison" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterBulletPoison";
+            }
+        }
+    }
+
+    class cCritterBulletEggs : cCritterBullet
+    {
+
+        public cCritterBulletEggs()
+        {
+            cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
+            bulletsprite.FillColor = Color.HotPink;
+            Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
+        }
+
+        public override cCritterBullet Create()
+        {
+            return new cCritterBulletEggs();
+        }
+
+        public override void initialize(cCritterArmed pshooter)
+        {
+            base.initialize(pshooter);  // calls the cCritterBullet initialize 
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterBulletEggs" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterBulletEggs";
+            }
+        }
+
+    }
 }
 
 
