@@ -1114,14 +1114,23 @@ namespace ACFramework
                     //just one end of the room.
                     cCritterBigHead a = new cCritterBigHead(this);
                     a.randomizePosition();
+                    a.moveTo(a.Position.add(new cVector3(0.0f, 50.0f, 0.0f)));
+
                     cCritterSailorVenus b = new cCritterSailorVenus(this);
                     b.randomizePosition();
+                    b.moveTo(a.Position.add(new cVector3(0.0f, 50.0f, 0.0f)));
+
                     cCritterMiniBot c= new cCritterMiniBot(this);
                     c.randomizePosition();
+                    c.moveTo(a.Position.add(new cVector3(0.0f, 50.0f, 0.0f)));
+
                     cCritterSnake d = new cCritterSnake(this);
                     d.randomizePosition();
+                    d.moveTo(a.Position.add(new cVector3(0.0f, 50.0f, 0.0f)));
+
                     cCritterChicken e = new cCritterChicken(this);
                     e.randomizePosition();
+                    e.moveTo(a.Position.add(new cVector3(0.0f, 50.0f, 0.0f)));
 
                     timeToSpawn = 5.0f;
                 }
