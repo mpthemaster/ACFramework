@@ -150,7 +150,7 @@ namespace ACFramework
                 //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
                 //so I had to do it in a backwards manner to get it to work.
                 cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
-                a.damage(20);
+                a.damage(200);
                 return true;
             }
             return false;
@@ -266,6 +266,8 @@ namespace ACFramework
         //because MaxSpeed is changed around with poison, this is used to remember the player's unpoisoned speed.
         private float normalMaxSpeed;
 
+        private int killCount = 0; //how many kills the player has gotten in room 3
+
         public cCritter3DPlayerHomer(cGame pownergame)
             :base( pownergame)
         {
@@ -318,6 +320,20 @@ namespace ACFramework
             {
                 Health = 100;
             }
+        }
+
+        
+        public int getKillCount()
+        {
+            return killCount;
+        }
+        public void increaseKillCount()
+        {
+            killCount += 1;
+        }
+        public void resetKillCount()
+        {
+            killCount = 0;
         }
 
         public override bool collide(cCritter pcritter)
@@ -579,7 +595,11 @@ namespace ACFramework
 	
 		public override void die() 
 		{ 
-			Player.addScore( Value ); 
+			Player.addScore( Value );
+
+            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+            player.increaseKillCount(); 
+
 			base.die(); 
 		} 
 
@@ -675,13 +695,17 @@ namespace ACFramework
         private bool wentThrough = false;
         private float startNewRoom;
         private int currentRoom;
-        private int killcount = 0; //how many kills the player has gotten in room 3
         private float timeToSpawn = 0.0f; //how long until more critters spawn in room 3.
-		
+        private bool createdDoor;//turn it to true when the door in room 3 is created so I don't re-create it.
+        public int getCurrentRoom()
+        {
+            return currentRoom;
+        }
+
 		public cGame3D() 
 		{
             currentRoom = 1;
-			doorcollision = false; 
+			doorcollision = false;
 			_menuflags &= ~ cGame.MENU_BOUNCEWRAP; 
 			_menuflags |= cGame.MENU_HOPPER; //Turn on hopper listener option.
 			_spritetype = cGame.ST_MESHSKIN; 
@@ -1009,6 +1033,9 @@ namespace ACFramework
             */
             currentRoom = 3;
             wentThrough = true;
+
+            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+            player.resetKillCount();
         }
 		
         //The commented out loop causes a bug that prevents the player from jumping properly.
@@ -1134,6 +1161,18 @@ namespace ACFramework
 
                     timeToSpawn = 5.0f;
                 }
+                cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+                if (player.getKillCount()>=20 && createdDoor==false)
+                {
+                    createdDoor = true;
+                    cCritterDoor endDoor = new cCritterDoor(
+                        new cVector3(0, -25, _border.Loz),
+                        new cVector3(0, -20, _border.Loz),
+                        2, 0.6f, this);
+                    cSpriteTextureBox pspritedoor =
+                        new cSpriteTextureBox(endDoor.Skeleton, BitmapRes.Door);
+                    endDoor.Sprite = pspritedoor;
+                }
             }
 
             if (doorcollision == true)
@@ -1233,6 +1272,10 @@ namespace ACFramework
         public override void die()
         {
             Player.addScore(Value);
+
+            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+            player.increaseKillCount(); 
+
             base.die();
         } 
 
@@ -1320,6 +1363,10 @@ namespace ACFramework
         public override void die()
         {
             Player.addScore(Value);
+
+            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+            player.increaseKillCount(); 
+
             base.die();
         }
 
@@ -1433,6 +1480,10 @@ namespace ACFramework
         public override void die()
         {
             Player.addScore(Value);
+
+            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+            player.increaseKillCount(); 
+
             base.die();
         }
 
@@ -1571,6 +1622,10 @@ namespace ACFramework
         public override void die()
         {
             Player.addScore(Value);
+
+            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+            player.increaseKillCount(); 
+
             base.die();
         }
 
@@ -1684,6 +1739,10 @@ namespace ACFramework
         public override void die()
         {
             Player.addScore(Value);
+
+            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+            player.increaseKillCount(); 
+
             base.die();
         }
 
