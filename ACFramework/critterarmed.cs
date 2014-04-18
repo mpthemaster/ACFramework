@@ -909,7 +909,8 @@ namespace ACFramework
     {
         public cCritterBulletPoison()
         {
-
+            _maxspeed = 50f;
+            Speed = 25f;
 
 
             cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);

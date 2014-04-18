@@ -309,9 +309,9 @@ namespace ACFramework
                     poisonAmount -= 1;
                     currentRecoverTime = recoverTime;
                 }
-                if (poisonAmount>6)
+                if (poisonAmount>9)
                 { 
-                    poisonAmount = 6;
+                    poisonAmount = 9;
                 }
             }
             if (cheater)
@@ -324,7 +324,7 @@ namespace ACFramework
         {
             bool collided = base.collide(pcritter);
 
-            if (collided && pcritter.IsKindOf("cCritterSnake"))
+            if (collided && (pcritter.IsKindOf("cCritterSnake")) || pcritter.IsKindOf("cCritterBulletPoison"))
             {
                 poisonAmount += 3;
             }
@@ -1388,6 +1388,24 @@ namespace ACFramework
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
                 addForce(new cForceObjectSeek(Player, 20.0f));
+
+                aimAt(_ptarget);
+
+                //(2) Align gun with move direction if necessary.
+                if (_aimtoattitudelock)
+                    AimVector = AttitudeTangent; /* Keep the gun pointed in the right direction. */
+                //(3) Shoot if possible.
+                if (!_armed || !_bshooting)
+                    return;
+                /* If _age has been reset to 0.0, you need to get ageshoot back in synch. */
+                if (_age < _ageshoot)
+                    _ageshoot = _age;
+                if ((_age - _ageshoot > _waitshoot)) //A shoot key is down 
+                {
+
+                    shoot();
+                    _ageshoot = _age;
+                } 
             }
             else
             {
@@ -1397,26 +1415,6 @@ namespace ACFramework
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
                 addForce(new cForceObjectSeek(Player, 0.1f));
             }
-
-            aimAt(_ptarget);
-
-            //(2) Align gun with move direction if necessary.
-            if (_aimtoattitudelock)
-                AimVector = AttitudeTangent; /* Keep the gun pointed in the right direction. */
-            //(3) Shoot if possible.
-            if (!_armed || !_bshooting)
-                return;
-            /* If _age has been reset to 0.0, you need to get ageshoot back in synch. */
-            if (_age < _ageshoot)
-                _ageshoot = _age;
-            if ((_age - _ageshoot > _waitshoot)) //A shoot key is down 
-            {
-                
-                shoot();
-                _ageshoot = _age;
-            } 
-
-
             //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
             //delete_me(); //tell the game to remove yourself if you fall up to the hiz.      
         } 
