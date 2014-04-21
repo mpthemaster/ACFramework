@@ -1031,17 +1031,7 @@ namespace ACFramework
             float ycenter = -_border.YRadius + height / 2.0f;
             float wallthickness = cGame3D.WALLTHICKNESS;
             Player.moveTo(new cVector3(0.0f, -30.0f ,0.0f)); 
-            /*
-            cCritterWall pwall = new cCritterWall(
-                new cVector3(5.0f, -6, 15.0f),
-                new cVector3(5.0f, -6, 20.0f),
-                5,
-                5,
-                this);
-            cSpriteTextureBox pspritebox =
-                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 1);
-            pwall.Sprite = pspritebox;
-            */
+
             currentRoom = 3;
             wentThrough = true;
 
@@ -1172,6 +1162,7 @@ namespace ACFramework
 
                     timeToSpawn = 5.0f;
                 }
+                //If the player has made 20 kills in room 3, create the door for the player to go through.
                 cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
                 if (player.getKillCount()>=20 && createdDoor==false)
                 {
@@ -1196,9 +1187,14 @@ namespace ACFramework
                 {
                     setRoom3();
                 }
-                else if (currentRoom ==3 )
+                else if (currentRoom ==3 && _win==false )
                 {
-                    //you win stuff here.
+                    _gameover = true;
+                    Player.addScore(500);
+                    _win = true;
+                    
+                    Framework.snd.play(Sound.Hallelujah);
+                    return; 
                 }
                 doorcollision = false;
             }

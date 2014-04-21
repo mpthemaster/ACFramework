@@ -93,7 +93,8 @@ namespace ACFramework
 			larger. */
         protected cLightingModel _plightingmodel;
         protected int _seedcount; //The current starting number of critters.
-        protected bool _gameover; //Is the game finished yet? 
+        protected bool _gameover; //has the player lost the game?
+        protected bool _win;//has the player won the game?
         protected int _maxscore; //Target max score for a game 
         protected int _scorecorrection; //Extra points to give user to make his max score = _maxscore.
         protected int _wrapflag; //cCritter::BOUNCE or cCritter::WRAP 
@@ -119,6 +120,7 @@ namespace ACFramework
         {
             _seedcount = COUNTSTART;
             _gameover = false;
+            _win = false;
             _maxscore = MAXSCORE;
             _scorecorrection = 0;
             _wrapflag = cCritter.WRAP;
@@ -739,6 +741,13 @@ namespace ACFramework
             set
                 { _gameover = value; }
         }
+        public virtual bool Win
+        {
+            get
+            { return _win; }
+            set
+            { _win = value; }
+        }
 
         public virtual bool NewGame
         {
@@ -835,7 +844,14 @@ namespace ACFramework
         {
             get
             {
-                return "Your Score Was " + Score.ToString();
+                return "You failed to escape the craziness! \nYour Score Was " + Score.ToString();
+            }
+        }
+        public virtual string GameWinMessage
+        {
+            get
+            {
+                return "You have escaped from the craziness! \nYour Score Was " + Score.ToString();
             }
         }
 

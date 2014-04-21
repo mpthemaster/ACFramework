@@ -275,7 +275,12 @@ namespace ACFramework
         // this is called when it is time to render the next frame.
         public override void OnRenderFrame(RenderFrameEventArgs e)
         {
-            if (pdoc.pgame().GameOver )
+            if (pdoc.pgame().Win)
+            {
+                MessageBox.Show(pdoc.pgame().GameWinMessage);
+                Exit();
+            }
+            else if (pdoc.pgame().GameOver )
             {
                 MessageBox.Show(pdoc.pgame().GameOverMessage);
                 Exit();
