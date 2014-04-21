@@ -343,6 +343,7 @@ namespace ACFramework
             if (collided && (pcritter.IsKindOf("cCritterSnake")) || pcritter.IsKindOf("cCritterBulletPoison"))
             {
                 poisonAmount += 3;
+                //Framework.snd.play(Sound.poisonSplat);
             }
 
             //The wall's collide happens when the player touches it, but the player's collide doesn't happen.

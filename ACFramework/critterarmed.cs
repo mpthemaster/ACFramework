@@ -912,7 +912,7 @@ namespace ACFramework
             _maxspeed = 50f;
             Speed = 25f;
 
-
+            /*
             cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
             bulletsprite.FillColor = Color.HotPink;
             Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
@@ -926,7 +926,16 @@ namespace ACFramework
         public override void initialize(cCritterArmed pshooter)
         {
             base.initialize(pshooter);  // calls the cCritterBullet initialize 
+            Sprite.FillColor = Color.Yellow;
+            // can use setSprite here too
+            setRadius(0.1f);
         }
+
+        public override int damage(int hitstrength)
+        {
+            Framework.snd.play(Sound.poisonSplat);
+            return base.damage(hitstrength); // will call cCritter damage
+        } 
 
         public override bool IsKindOf(string str)
         {
