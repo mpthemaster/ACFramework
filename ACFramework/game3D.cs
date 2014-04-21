@@ -1412,13 +1412,16 @@ namespace ACFramework
         public cCritterSnake(cGame pownergame)
             : base(pownergame)
         {
-            addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-            addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
-            BulletClass = new cCritterBulletPoison();
+
             WaitShoot = 1f;
             _bshooting = true;
-           
+            Density = 2.0f;
+            MaxSpeed = 30.0f;
+            BulletClass = new cCritterBulletPoison();
             
+            addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+            addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
+                    
 
             if (pownergame != null) //Just to be safe.
                 Sprite = new cSpriteQuake(ModelsMD2.Cobra);
