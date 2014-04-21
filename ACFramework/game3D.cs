@@ -708,6 +708,7 @@ namespace ACFramework
         private int currentRoom;
         private float timeToSpawn = 0.0f; //how long until more critters spawn in room 3.
         private bool createdDoor;//turn it to true when the door in room 3 is created so I don't re-create it.
+        private int createdHealth = 0;//Keeping track of how many health packs have spawned in room 3
         public int getCurrentRoom()
         {
             return currentRoom;
@@ -782,7 +783,7 @@ namespace ACFramework
                 2,
                 2,
                 this);
-            cSpriteTextureBox healthspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Health, 1);
+            cSpriteTextureBox healthspritebox = new cSpriteTextureBox(phealth.Skeleton, BitmapRes.Health, 1);
             phealth.Sprite = healthspritebox;
 
 
@@ -1025,8 +1026,7 @@ namespace ACFramework
 
             _seedcount = 0;
             Player.setMoveBox(new cRealBox3(50.0f, 50.0f, 50.0f));
-            float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
-			halfway down the hall, but we can offset it if we like. */
+
             float height = 0.1f * _border.YSize;
             float ycenter = -_border.YRadius + height / 2.0f;
             float wallthickness = cGame3D.WALLTHICKNESS;
@@ -1174,6 +1174,19 @@ namespace ACFramework
                     cSpriteTextureBox pspritedoor =
                         new cSpriteTextureBox(endDoor.Skeleton, BitmapRes.Door);
                     endDoor.Sprite = pspritedoor;
+                }
+
+                if (player.getKillCount() >= 5 && createdHealth == 0)
+                {
+                    createdHealth += 1;
+                    cCritterHealth phealth = new cCritterHealth(
+                        new cVector3(2.0f, -24, 0),
+                        new cVector3(2.0f, -24, 2.0f),
+                        2,
+                        2,
+                        this);
+                    cSpriteTextureBox healthspritebox = new cSpriteTextureBox(phealth.Skeleton, BitmapRes.Health, 1);
+                    phealth.Sprite = healthspritebox;
                 }
             }
 
