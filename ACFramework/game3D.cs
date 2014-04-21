@@ -340,7 +340,7 @@ namespace ACFramework
         {
             bool collided = base.collide(pcritter);
 
-            if (collided && (pcritter.IsKindOf("cCritterSnake")) || pcritter.IsKindOf("cCritterBulletPoison"))
+            if (collided && pcritter.IsKindOf("cCritterSnake"))
             {
                 poisonAmount += 3;
                 //Framework.snd.play(Sound.poisonSplat);
@@ -348,7 +348,7 @@ namespace ACFramework
 
             if (collided && pcritter.IsKindOf("cCritterBulletPoison"))
             {
-                
+                poisonAmount += 3;
                 Framework.snd.play(Sound.poisonSplat);
             }
             else if (collided && pcritter.IsKindOf("cCritterBulletEggs"))
