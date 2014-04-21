@@ -1297,6 +1297,8 @@ namespace ACFramework
 
     class cCritterBigHead : cCritter
     {
+        private bool dead;
+
 
         public cCritterBigHead(cGame pownergame)
             : base(pownergame)
@@ -1335,27 +1337,28 @@ namespace ACFramework
         {
             base.update(pactiveview, dt);
 
-            
-            rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
-
-            float playerDistance = distanceTo(Player);
-            if (playerDistance > 1.5)
+            if (!dead)
             {
-                Sprite.ModelState = State.Run;
-                clearForcelist();
-                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 25.0f));
-            }
-            else
-            {
-                Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
-                clearForcelist();
-                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
-                addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
-                addForce(new cForceObjectSeek(Player, 0.1f));
-            }
+                rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
+                float playerDistance = distanceTo(Player);
+                if (playerDistance > 1.5)
+                {
+                    Sprite.ModelState = State.Run;
+                    clearForcelist();
+                    addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                    addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                    addForce(new cForceObjectSeek(Player, 25.0f));
+                }
+                else
+                {
+                    Sprite.setstate(State.Other, 112, 134, StateType.Repeat);
+                    clearForcelist();
+                    addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                    addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+                    addForce(new cForceObjectSeek(Player, 0.1f));
+                }
+            }
             //if ((_outcode & cRealBox3.BOX_HIZ) != 0) /* use bitwise AND to check if a flag is set. */
                 //delete_me(); //tell the game to remove yourself if you fall up to the hiz.
 
@@ -1363,12 +1366,19 @@ namespace ACFramework
 
         public override void die()
         {
-            Player.addScore(Value);
+            if (!dead)
+            {
+                dead = true;
+                Player.addScore(Value);
 
-            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
-            player.increaseKillCount(); 
+                cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+                player.increaseKillCount();
 
-            base.die();
+                clearForcelist();
+                addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
+                addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
+                Sprite.setstate(State.Other, 190, 197, StateType.Hold);
+            }
         }
 
 
@@ -1429,14 +1439,34 @@ namespace ACFramework
         {
             base.update(pactiveview, dt);
             rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
+            
 
             float playerDistance = distanceTo(Player);
-            if (playerDistance > 10)
+            if (playerDistance > 20)
             {
                 Sprite.ModelState = State.Idle;
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
                 addForce(new cForceDrag(5.0f));  // default friction strength 0.5 
+            }
+            else if (playerDistance > 10)
+            {
+                aimAt(_ptarget);
+                //(2) Align gun with move direction if necessary.
+                if (_aimtoattitudelock)
+                    AimVector = AttitudeTangent; /* Keep the gun pointed in the right direction. */
+                //(3) Shoot if possible.
+                if (!_armed || !_bshooting)
+                    return;
+                /* If _age has been reset to 0.0, you need to get ageshoot back in synch. */
+                if (_age < _ageshoot)
+                    _ageshoot = _age;
+                if ((_age - _ageshoot > _waitshoot)) //A shoot key is down 
+                {
+
+                    shoot();
+                    _ageshoot = _age;
+                } 
             }
             else if (playerDistance > 1.5)
             {
@@ -1447,7 +1477,6 @@ namespace ACFramework
                 addForce(new cForceObjectSeek(Player, 20.0f));
 
                 aimAt(_ptarget);
-
                 //(2) Align gun with move direction if necessary.
                 if (_aimtoattitudelock)
                     AimVector = AttitudeTangent; /* Keep the gun pointed in the right direction. */
