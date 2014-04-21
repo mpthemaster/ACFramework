@@ -931,11 +931,12 @@ namespace ACFramework
             setRadius(0.1f);
         }
 
+        /*
         public override int damage(int hitstrength)
         {
             Framework.snd.play(Sound.poisonSplat);
             return base.damage(hitstrength); // will call cCritter damage
-        } 
+        } */
 
         public override bool IsKindOf(string str)
         {
@@ -956,9 +957,9 @@ namespace ACFramework
 
         public cCritterBulletEggs()
         {
-            cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
-            bulletsprite.FillColor = Color.HotPink;
-            Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
+            //cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
+            //bulletsprite.FillColor = Color.HotPink;
+            //Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
         }
 
         public override cCritterBullet Create()
@@ -968,8 +969,13 @@ namespace ACFramework
 
         public override void initialize(cCritterArmed pshooter)
         {
+                        
             base.initialize(pshooter);  // calls the cCritterBullet initialize 
+            Sprite.FillColor = Color.White;
+            // can use setSprite here too
+           // setRadius(0.1f);
         }
+
 
         public override bool IsKindOf(string str)
         {

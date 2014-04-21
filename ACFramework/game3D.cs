@@ -346,6 +346,16 @@ namespace ACFramework
                 //Framework.snd.play(Sound.poisonSplat);
             }
 
+            if (collided && pcritter.IsKindOf("cCritterBulletPoison"))
+            {
+                
+                Framework.snd.play(Sound.poisonSplat);
+            }
+            else if (collided && pcritter.IsKindOf("cCritterBulletEggs"))
+            {
+                Framework.snd.play(Sound.eggSplat);
+            }
+
             //The wall's collide happens when the player touches it, but the player's collide doesn't happen.
             //so picking up a key and opening a door has to be done in those object's collide instead of here.
             
@@ -1536,7 +1546,7 @@ namespace ACFramework
             _bshooting = true;
             Density = 2.0f;
             MaxSpeed = 30.0f;
-
+            BulletClass = new cCritterBulletEggs();
             //addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
             addForce(new cForceDrag(20.0f));  // default friction strength 0.5 
             
