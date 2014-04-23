@@ -416,9 +416,6 @@ namespace ACFramework
                 }
 
             }
-
-            if (pcritter.IsKindOf("cCritterBullet"))
-                pcritter.die();
             return true;
         }
 
@@ -552,7 +549,49 @@ namespace ACFramework
             Sprite.FillColor = Color.Crimson;
             // can use setSprite here too
             setRadius(0.1f);
-		} 
+		}
+
+        public override bool collide(cCritter pcritter)
+        {
+            //If you hit a target, damage it and die.
+            if (_baseAccessControl == 1)
+                return base.collide(pcritter);
+            if (isTarget(pcritter))
+            {
+                if (!touch(pcritter))
+                    return false;
+                int hitscore = pcritter.damage(_hitstrength);
+                delete_me(); //Makes a service request, but you won't go away yet.
+
+                if (pcritter is cCritterBigHead)
+                {
+                    if ((pcritter as cCritterBigHead).Dead == true)
+                        (pcritter as cCritterBigHead).KilledByPlayer = true;
+                }
+                //else if (pcritter is cCritterChicken)
+                //{
+                //    if ((pcritter as cCritterChicken).Dead == true)
+                //        (pcritter as cCritterChicken).KilledByPlayer = true;
+                //}
+                //else if (pcritter is cCritterMiniBot)
+                //{
+                //    if ((pcritter as cCritterMiniBot).Dead == true)
+                //        (pcritter as cCritterminiBot).KilledByPlayer = true;
+                //}
+                //else if (pcritter is cCritterSailorVenus)
+                //{
+                //    if ((pcritter as cCritterSailorVenus).Dead == true)
+                //        (pcritter as cCritterSailorVenus).KilledByPlayer = true;
+                //}
+                //else
+                //    if ((pcritter as cCritterSnake).Dead == true)
+                //        (pcritter as cCritterSnake).KilledByPlayer = true;
+
+                return true;
+            }
+            //Bounce off or everything else.
+            return base.collide(pcritter); //Bounce off non-target critters 
+        }
 
         public override bool IsKindOf( string str )
         {
@@ -634,9 +673,6 @@ namespace ACFramework
 		public override void die() 
 		{ 
 			Player.addScore( Value );
-
-            cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
-            player.increaseKillCount(); 
 
 			base.die(); 
 		} 
@@ -1356,6 +1392,7 @@ namespace ACFramework
     class cCritterBigHead : cCritter
     {
         public bool Dead { get; private set; }
+        public bool KilledByPlayer { get; set; }
 
         public cCritterBigHead(cGame pownergame)
             : base(pownergame)
@@ -1426,10 +1463,13 @@ namespace ACFramework
             if (!Dead)
             {
                 Dead = true;
-                Player.addScore(Value);
 
-                cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
-                player.increaseKillCount();
+                if (KilledByPlayer)
+                {
+                    Player.addScore(Value);
+                    cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+                    player.increaseKillCount();
+                }
 
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));

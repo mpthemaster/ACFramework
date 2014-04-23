@@ -931,6 +931,51 @@ namespace ACFramework
             setRadius(0.1f);
         }
 
+        public override bool collide(cCritter pcritter)
+        {
+            if (!pcritter.IsKindOf("cCritterArmedPlayer"))
+            {
+                if (pcritter is cCritterBigHead)
+                {
+                    if ((pcritter as cCritterBigHead).KilledByPlayer == false)
+                        return false;
+                }
+                //else if (pcritter is cCritterChicken)
+                //{
+                //    if ((pcritter as cCritterChicken).KilledByPlayer == false)
+                //        return false;
+                //}
+                //else if (pcritter is cCritterMiniBot)
+                //{
+                //    if ((pcritter as cCritterMiniBot).KilledByPlayer == false)
+                //        return false;
+                //}
+                //else if (pcritter is cCritterSailorVenus)
+                //{
+                //    if ((pcritter as cCritterSailorVenus)KilledByPlayer == false)
+                //        return false;
+                //}
+                //else
+                //    if ((pcritter as cCritterSnake)KilledByPlayer == false == true)
+                //        return false;
+            }
+
+            //If you hit a target, damage it and die.
+            if (_baseAccessControl == 1)
+                return base.collide(pcritter);
+            if (isTarget(pcritter))
+            {
+                if (!touch(pcritter))
+                    return false;
+                int hitscore = pcritter.damage(_hitstrength);
+                delete_me(); //Makes a service request, but you won't go away yet.
+
+                return true;
+            }
+            //Bounce off or everything else.
+            return base.collide(pcritter); //Bounce off non-target critters 
+        }
+
         /*
         public override int damage(int hitstrength)
         {
@@ -976,6 +1021,23 @@ namespace ACFramework
            // setRadius(0.1f);
         }
 
+        public override bool collide(cCritter pcritter)
+        {
+            //If you hit a target, damage it and die.
+            if (_baseAccessControl == 1)
+                return base.collide(pcritter);
+            if (isTarget(pcritter))
+            {
+                if (!touch(pcritter))
+                    return false;
+                int hitscore = pcritter.damage(_hitstrength);
+                delete_me(); //Makes a service request, but you won't go away yet.
+
+                return true;
+            }
+            //Bounce off or everything else.
+            return base.collide(pcritter); //Bounce off non-target critters 
+        }
 
         public override bool IsKindOf(string str)
         {
