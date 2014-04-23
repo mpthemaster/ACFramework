@@ -371,6 +371,32 @@ namespace ACFramework
             _baseAccessControl = 0;
             if (!collided)
                 return false;
+
+            //Check if the critter is dead, if so the collision doesn't matter.
+            if (pcritter is cCritterBigHead)
+            {
+                if ((pcritter as cCritterBigHead).Dead == true)
+                    return false;
+            }
+            else if (pcritter is cCritterChicken)
+            {
+                if ((pcritter as cCritterChicken).Dead == true)
+                    return false;
+            }
+            else if (pcritter is cCritterMiniBot)
+            {
+                if ((pcritter as cCritterMiniBot).Dead == true)
+                    return false;
+            }
+            else if (pcritter is cCritterSailorVenus)
+            {
+                if ((pcritter as cCritterSailorVenus).Dead == true)
+                    return false;
+            }
+            else
+                if ((pcritter as cCritterSnake).Dead == true)
+                    return false;
+
             /* If you're here, you collided.  We'll treat all the guys the same -- the collision
          with a Treasure is different, but we let the Treasure contol that collision. */
             if (playerhigherthancritter)
@@ -1228,7 +1254,7 @@ namespace ACFramework
 
     class cCritterSailorVenus : cCritter
     {
-        private bool dead;
+        public bool Dead { get; private set; }
 
         public cCritterSailorVenus(cGame pownergame)
             : base(pownergame)
@@ -1267,7 +1293,7 @@ namespace ACFramework
         {
             base.update(pactiveview, dt);
 
-            if (!dead)
+            if (!Dead)
             {
                 rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
@@ -1303,9 +1329,9 @@ namespace ACFramework
 
         public override void die()
         {
-            if (!dead)
+            if (!Dead)
             {
-                dead = true;
+                Dead = true;
                 Player.addScore(Value);
 
                 cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
@@ -1335,7 +1361,7 @@ namespace ACFramework
 
     class cCritterBigHead : cCritter
     {
-        private bool dead;
+        public bool Dead { get; private set; }
 
         public cCritterBigHead(cGame pownergame)
             : base(pownergame)
@@ -1374,7 +1400,7 @@ namespace ACFramework
         {
             base.update(pactiveview, dt);
 
-            if (!dead)
+            if (!Dead)
             {
                 rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
@@ -1403,9 +1429,9 @@ namespace ACFramework
 
         public override void die()
         {
-            if (!dead)
+            if (!Dead)
             {
-                dead = true;
+                Dead = true;
                 Player.addScore(Value);
 
                 cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
@@ -1435,7 +1461,7 @@ namespace ACFramework
 
     class cCritterSnake : cCritterArmed
     {
-        private bool dead;
+        public bool Dead { get; private set; }
 
         public cCritterSnake(cGame pownergame)
             : base(pownergame)
@@ -1480,7 +1506,7 @@ namespace ACFramework
         {
             base.update(pactiveview, dt);
 
-            if (!dead)
+            if (!Dead)
             {
                 rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
@@ -1555,10 +1581,10 @@ namespace ACFramework
 
         public override void die()
         {
-            if (!dead)
+            if (!Dead)
             {
                 _bshooting = false;
-                dead = true;
+                Dead = true;
                 Player.addScore(Value);
 
                 cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
@@ -1610,7 +1636,7 @@ namespace ACFramework
 
     class cCritterChicken : cCritterArmed
     {
-        private bool dead;
+        public bool Dead { get; private set; }
 
         public cCritterChicken(cGame pownergame)
             : base(pownergame)
@@ -1654,7 +1680,7 @@ namespace ACFramework
         {
             base.update(pactiveview, dt);
 
-            if (!dead)
+            if (!Dead)
             {
                 rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
@@ -1708,10 +1734,10 @@ namespace ACFramework
 
         public override void die()
         {
-            if (!dead)
+            if (!Dead)
             {
                 _bshooting = false;
-                dead = true;
+                Dead = true;
                 Player.addScore(Value);
 
                 cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
@@ -1761,7 +1787,7 @@ namespace ACFramework
 
     class cCritterMiniBot : cCritter
     {
-        private bool dead;
+        public bool Dead { get; private set; }
 
         public cCritterMiniBot(cGame pownergame)
             : base(pownergame)
@@ -1800,7 +1826,7 @@ namespace ACFramework
         {
             base.update(pactiveview, dt);
 
-            if (!dead)
+            if (!Dead)
             {
                 rotateAttitude(Tangent.rotationAngle(AttitudeTangent));
 
@@ -1836,9 +1862,9 @@ namespace ACFramework
 
         public override void die()
         {
-            if (!dead)
+            if (!Dead)
             {
-                dead = true;
+                Dead = true;
                 Player.addScore(Value);
 
                 cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
