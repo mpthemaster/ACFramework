@@ -794,7 +794,7 @@ namespace ACFramework
 
             SkyBox.setSideTexture(cRealBox3.HIX, BitmapRes.Concrete, 1);
             SkyBox.setSideTexture(cRealBox3.LOX, BitmapRes.Concrete, 1);
-            SkyBox.setSideTexture(cRealBox3.LOY, BitmapRes.Wall1, 3);
+            SkyBox.setSideTexture(cRealBox3.LOY, BitmapRes.Wall6, 3);
             SkyBox.setSideTexture(cRealBox3.HIZ, BitmapRes.Concrete, 1);
             SkyBox.setSideTexture(cRealBox3.LOZ, BitmapRes.Concrete, 1);
             SkyBox.setSideTexture(cRealBox3.HIY, BitmapRes.Wall1, 2);
