@@ -1176,12 +1176,21 @@ namespace ACFramework
                     endDoor.Sprite = pspritedoor;
                 }
 
-                if (player.getKillCount() >= 5 && createdHealth == 0)
+                //Create a health pack at a random location when the player has made 5, 10, and 15 kills.
+                //createdHealth keeps track of how many health packs have already been made.
+                if ((player.getKillCount() >= 5 && createdHealth == 0) ||
+                    (player.getKillCount() >= 10 && createdHealth == 1) ||
+                    (player.getKillCount() >= 15 && createdHealth == 2))
                 {
                     createdHealth += 1;
+
+                    //the + and - 2 are to prevent the healthpack from spawning in the border.
+                    float randomx = Framework.randomOb.randomReal(_border.Lox+2, _border.Hix-2);
+                    float randomz = Framework.randomOb.randomReal(_border.Loz+2, _border.Hiz-2);
+
                     cCritterHealth phealth = new cCritterHealth(
-                        new cVector3(2.0f, -24, 0),
-                        new cVector3(2.0f, -24, 2.0f),
+                        new cVector3(randomx, -24, randomz),
+                        new cVector3(randomx, -24, randomz + 2.0f),
                         2,
                         2,
                         this);
