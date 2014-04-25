@@ -841,16 +841,17 @@ namespace ACFramework
             float ycenter = -_border.YRadius + height / 2.0f;
             float wallthickness = cGame3D.WALLTHICKNESS;
 
+
             cCritterWall pwall = new cCritterWall(
                 new cVector3(_border.Midx + 2.0f, ycenter, zpos),
                 new cVector3(_border.Hix, ycenter, zpos),
-                height, //thickness param for wall's dy which goes perpendicular to the 
-                            //baseline established by the frist two args, up the screen 
-                wallthickness, //height argument for this wall's dz  goes into the screen 
+                height, 
+                wallthickness, 
                 this);
             cSpriteTextureBox pspritebox =
                 new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 16); 
             pwall.Sprite = pspritebox;
+
 
             //the key in the first part of the room
             cCritterKey pkey = new cCritterKey(
@@ -904,6 +905,30 @@ namespace ACFramework
                 new cSpriteTextureBox(wall3.Skeleton, BitmapRes.Wall3, 2);
             wall3.Sprite = spritebox3;
 
+            /*
+             * Not yet finished with these two, so it's commented out for now.
+            //The wall to the right after the first door
+            cCritterWall wall4 = new cCritterWall(
+                new cVector3(2, 3, 5),
+                new cVector3(2, 3, 4),
+                32,
+                7,
+                this);
+            cSpriteTextureBox spritebox4 =
+                new cSpriteTextureBox(wall4.Skeleton, BitmapRes.Wall3, 1);
+            wall4.Sprite = spritebox4;
+
+            //the roof above wall4
+            cCritterWall wall5 = new cCritterWall(
+                new cVector3(0, 3, 5),
+                new cVector3(0, 3, 4),
+                2,
+                16,
+                this);
+            cSpriteTextureBox spritebox5 =
+                new cSpriteTextureBox(wall5.Skeleton, BitmapRes.Wall3, 1);
+            wall5.Sprite = spritebox5;
+            */
             //the first door
             cCritterDoorLocked door1 = new cCritterDoorLocked(
                 new cVector3(0, -8, 4.5f),
