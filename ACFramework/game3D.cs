@@ -1,10 +1,7 @@
-//Michael Hildebrand
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-// hello, or maybe not, guys
-
-// mod: setRoom1 doesn't repeat over and over again
 
 namespace ACFramework
 { 
@@ -50,7 +47,6 @@ namespace ACFramework
         private float speed = 2.0f;
         private float timeToTurn = 1.0f;
 
-        private float savedt =0.1f;
         
         public cCritterWallMoving(cVector3 enda, cVector3 endb, float thickness, float height, cGame pownergame)
             : base(enda, endb, thickness, height, pownergame)
@@ -69,9 +65,6 @@ namespace ACFramework
                 speed *= -1;
                 timeToTurn = 1.0f;
             }
-            //the collide function doesn't have dt passed into it, so I save it in a variable
-            //here to be used there for moving the player when standing on the moving wall.
-            savedt = dt;
         }
 
         public override bool collide(cCritter pcritter)
@@ -80,7 +73,7 @@ namespace ACFramework
             if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
             {
                 cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
-                a.dragTo(a.Position.add(new cVector3(speed * savedt, 0, 0)), savedt);
+                a.dragTo(a.Position.add(new cVector3(speed * Framework.pdoc.getdt(), 0, 0)), Framework.pdoc.getdt());
             }
             return false;
         }
@@ -147,10 +140,11 @@ namespace ACFramework
             bool collided = base.collide(pcritter);
             if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
             {
-                //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
-                //so I had to do it in a backwards manner to get it to work.
                 cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
-                a.damage(200);
+                if (a.cheater == false) //To prevent it from killing the player while in cheat mode.
+                {
+                    a.damage(200);
+                }
                 return true;
             }
             return false;
@@ -852,10 +846,10 @@ namespace ACFramework
                 new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 16); 
             pwall.Sprite = pspritebox;
 
-            // The key that is placed in the center of the room for testing purposes.
+            //the key in the first part of the room
             cCritterKey pkey = new cCritterKey(
-                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz),
-                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz + 2.0f),
+                new cVector3( 24.0f, -7, 13),
+                new cVector3( 24.0f, -7, 15),
                 2,
                 2,
                 this);
@@ -863,38 +857,59 @@ namespace ACFramework
             pkey.Sprite = testingspritebox;
 
             cCritterHealth phealth = new cCritterHealth(
-                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz),
-                new cVector3(_border.Midx + 2.0f, ycenter, _border.Midz + 2.0f),
+                new cVector3( 3.0f, -7, 0),
+                new cVector3( 3.0f, -7, 2.0f),
                 2,
                 2,
                 this);
             cSpriteTextureBox healthspritebox = new cSpriteTextureBox(phealth.Skeleton, BitmapRes.Health, 1);
             phealth.Sprite = healthspritebox;
 
-
-            cCritterWallMoving pmovingwall = new cCritterWallMoving(
-                new cVector3( 5.0f, -20.0f,  0.0f),
-                new cVector3( 5.0f, -20.0f,  8.0f),
-                8,
-                1,
+            //The wall above the first door.
+            cCritterWall wall1 = new cCritterWall(
+                new cVector3(0, 3, 5),
+                new cVector3(0, 3, 4),
+                2,
+                16,
                 this);
-            cSpriteTextureBox testingmovingwallspritebox = new cSpriteTextureBox(pmovingwall.Skeleton, BitmapRes.Wall3, 1);
-            pmovingwall.Sprite = testingmovingwallspritebox;
+            cSpriteTextureBox spritebox1 =
+                new cSpriteTextureBox(wall1.Skeleton, BitmapRes.Wall3, 1);
+            wall1.Sprite = spritebox1;
 
-
-            //Then draw a ramp to the top of the wall.  Scoot it over against the right wall.
-            float planckwidth = 0.75f * height;
-            pwall = new cCritterWall(
-                new cVector3(_border.Hix - planckwidth / 2.0f, _border.Loy, _border.Hiz - 2.0f),
-                new cVector3(_border.Hix - planckwidth / 2.0f, _border.Loy + height, zpos),
-                planckwidth, //thickness param for wall's dy which is perpenedicualr to the baseline, 
-                //which goes into the screen, so thickness goes to the right 
-                wallthickness, //_border.zradius(),  //height argument for wall's dz which goes into the screen 
+            //The wall to the left of the first door
+            cCritterWall wall2 = new cCritterWall(
+                new cVector3(-16, 0, 5),
+                new cVector3(-16, 0, 4),
+                30f,
+                16,
                 this);
-            cSpriteTextureBox stb = new cSpriteTextureBox(pwall.Skeleton,
-                BitmapRes.Wood2, 2);
-            pwall.Sprite = stb;
+            cSpriteTextureBox spritebox2 =
+                new cSpriteTextureBox(wall2.Skeleton, BitmapRes.Wall3, 2);
+            wall2.Sprite = spritebox2;
 
+            //The wall to the right of the first door
+            cCritterWall wall3 = new cCritterWall(
+                new cVector3(16, 0, 5),
+                new cVector3(16, 0, 4),
+                30f,
+                16,
+                this);
+            cSpriteTextureBox spritebox3 =
+                new cSpriteTextureBox(wall3.Skeleton, BitmapRes.Wall3, 2);
+            wall3.Sprite = spritebox3;
+
+            //the first door
+            cCritterDoorLocked door1 = new cCritterDoorLocked(
+                new cVector3(0, -8, 4.5f),
+                new cVector3(0, -5, 4.5f),
+                2, 0.1f, this);
+            cSpriteTextureBox doorspritebox1 =
+                new cSpriteTextureBox(door1.Skeleton, BitmapRes.Door);
+            door1.Sprite = doorspritebox1;
+
+
+
+            //the exit to the next room
             cCritterDoor pdwall = new cCritterDoor(
                 new cVector3(_border.Lox, _border.Loy, _border.Midz),
                 new cVector3(_border.Lox, _border.Midy - 3, _border.Midz),
@@ -903,16 +918,6 @@ namespace ACFramework
                 new cSpriteTextureBox(pdwall.Skeleton, BitmapRes.Door);
             pdwall.Sprite = pspritedoor;
 
-            cCritterDoorLocked testingDoor = new cCritterDoorLocked(
-                new cVector3(_border.Midx - 4.0f, _border.Loy, _border.Midz),
-                new cVector3(_border.Midx - 4.0f, _border.Midy - 3, _border.Midz),
-                0.1f, 3, this);
-            cSpriteTextureBox pspritedoorlocked =
-                new cSpriteTextureBox(testingDoor.Skeleton, BitmapRes.Door);
-            testingDoor.Sprite = pspritedoorlocked;
-
-
-            pwall.Sprite = pspritebox;
             wentThrough = true;
             startNewRoom = Age;
             currentRoom = 1;
@@ -958,6 +963,7 @@ namespace ACFramework
             float wallthickness = cGame3D.WALLTHICKNESS;
             seedCritters();
 
+            //the platform at the top of the first ramp
             cCritterWall pwall = new cCritterWall(
                 new cVector3(5.0f, -6, 15.0f),
                 new cVector3(5.0f, -6, 20.0f),
@@ -968,6 +974,7 @@ namespace ACFramework
                 new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 1); 
                 pwall.Sprite = pspritebox;
 
+            //the ramp near the start
             cCritterWall pwall3 = new cCritterWall(
                 new cVector3(5.0f, -5.1f, 18.85f),
                 new cVector3(5.0f, -13, 30.0f),
@@ -988,7 +995,7 @@ namespace ACFramework
             cSpriteTextureBox pspritebox4 =
                 new cSpriteTextureBox(pwall4.Skeleton, BitmapRes.Wall3, 1);
             pwall4.Sprite = pspritebox4;
-            //the wall stopping the play from jumping onto the ramp after the lava
+            //the wall stopping the player from jumping over the lava onto the ramp
             cCritterWall pwall5 = new cCritterWall(
                 new cVector3(0.0f, -4f, -20.0f),
                 new cVector3(0.0f, -13, -20.0f),
