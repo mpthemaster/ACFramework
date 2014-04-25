@@ -933,32 +933,7 @@ namespace ACFramework
 
         public override bool collide(cCritter pcritter)
         {
-            if (!pcritter.IsKindOf("cCritterArmedPlayer"))
-            {
-                if (pcritter is cCritterBigHead)
-                {
-                    if ((pcritter as cCritterBigHead).KilledByPlayer == false)
-                        return false;
-                }
-                //else if (pcritter is cCritterChicken)
-                //{
-                //    if ((pcritter as cCritterChicken).KilledByPlayer == false)
-                //        return false;
-                //}
-                //else if (pcritter is cCritterMiniBot)
-                //{
-                //    if ((pcritter as cCritterMiniBot).KilledByPlayer == false)
-                //        return false;
-                //}
-                //else if (pcritter is cCritterSailorVenus)
-                //{
-                //    if ((pcritter as cCritterSailorVenus)KilledByPlayer == false)
-                //        return false;
-                //}
-                //else
-                //    if ((pcritter as cCritterSnake)KilledByPlayer == false == true)
-                //        return false;
-            }
+            
 
             //If you hit a target, damage it and die.
             if (_baseAccessControl == 1)
@@ -1023,6 +998,8 @@ namespace ACFramework
 
         public override bool collide(cCritter pcritter)
         {
+            
+
             //If you hit a target, damage it and die.
             if (_baseAccessControl == 1)
                 return base.collide(pcritter);

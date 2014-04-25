@@ -403,7 +403,6 @@ namespace ACFramework
             if (playerhigherthancritter)
             {
                 Framework.snd.play(Sound.Goopy);
-                addScore(10);
             }
             else
             {
@@ -500,7 +499,6 @@ namespace ACFramework
 			if ( playerhigherthancritter ) 
 			{
                 Framework.snd.play(Sound.Goopy); 
-				addScore( 10 ); 
 			} 
 			else 
 			{ 
@@ -568,24 +566,24 @@ namespace ACFramework
                     if ((pcritter as cCritterBigHead).Dead == true)
                         (pcritter as cCritterBigHead).KilledByPlayer = true;
                 }
-                //else if (pcritter is cCritterChicken)
-                //{
-                //    if ((pcritter as cCritterChicken).Dead == true)
-                //        (pcritter as cCritterChicken).KilledByPlayer = true;
-                //}
-                //else if (pcritter is cCritterMiniBot)
-                //{
-                //    if ((pcritter as cCritterMiniBot).Dead == true)
-                //        (pcritter as cCritterminiBot).KilledByPlayer = true;
-                //}
-                //else if (pcritter is cCritterSailorVenus)
-                //{
-                //    if ((pcritter as cCritterSailorVenus).Dead == true)
-                //        (pcritter as cCritterSailorVenus).KilledByPlayer = true;
-                //}
-                //else
-                //    if ((pcritter as cCritterSnake).Dead == true)
-                //        (pcritter as cCritterSnake).KilledByPlayer = true;
+                else if (pcritter is cCritterChicken)
+                {
+                    if ((pcritter as cCritterChicken).Dead == true)
+                        (pcritter as cCritterChicken).KilledByPlayer = true;
+                }
+                else if (pcritter is cCritterMiniBot)
+                {
+                    if ((pcritter as cCritterMiniBot).Dead == true)
+                        (pcritter as cCritterMiniBot).KilledByPlayer = true;
+                }
+                else if (pcritter is cCritterSailorVenus)
+                {
+                    if ((pcritter as cCritterSailorVenus).Dead == true)
+                        (pcritter as cCritterSailorVenus).KilledByPlayer = true;
+                }
+                else
+                    if ((pcritter as cCritterSnake).Dead == true)
+                        (pcritter as cCritterSnake).KilledByPlayer = true;
 
                 return true;
             }
@@ -1285,6 +1283,7 @@ namespace ACFramework
     class cCritterSailorVenus : cCritter
     {
         public bool Dead { get; private set; }
+        public bool KilledByPlayer { get; set; }
 
         public cCritterSailorVenus(cGame pownergame)
             : base(pownergame)
@@ -1362,10 +1361,13 @@ namespace ACFramework
             if (!Dead)
             {
                 Dead = true;
-                Player.addScore(Value);
 
-                cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
-                player.increaseKillCount();
+                if (KilledByPlayer)
+                {
+                    Player.addScore(Value);
+                    cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+                    player.increaseKillCount();
+                }
 
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
@@ -1496,6 +1498,7 @@ namespace ACFramework
     class cCritterSnake : cCritterArmed
     {
         public bool Dead { get; private set; }
+        public bool KilledByPlayer { get; set; }
 
         public cCritterSnake(cGame pownergame)
             : base(pownergame)
@@ -1619,10 +1622,13 @@ namespace ACFramework
             {
                 _bshooting = false;
                 Dead = true;
-                Player.addScore(Value);
 
-                cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
-                player.increaseKillCount();
+                if (KilledByPlayer)
+                {
+                    Player.addScore(Value);
+                    cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+                    player.increaseKillCount();
+                }
 
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
@@ -1671,6 +1677,7 @@ namespace ACFramework
     class cCritterChicken : cCritterArmed
     {
         public bool Dead { get; private set; }
+        public bool KilledByPlayer { get; set; }
 
         public cCritterChicken(cGame pownergame)
             : base(pownergame)
@@ -1772,10 +1779,13 @@ namespace ACFramework
             {
                 _bshooting = false;
                 Dead = true;
-                Player.addScore(Value);
 
-                cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
-                player.increaseKillCount();
+                if (KilledByPlayer)
+                {
+                    Player.addScore(Value);
+                    cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+                    player.increaseKillCount();
+                }
 
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
@@ -1822,6 +1832,7 @@ namespace ACFramework
     class cCritterMiniBot : cCritter
     {
         public bool Dead { get; private set; }
+        public bool KilledByPlayer { get; set; }
 
         public cCritterMiniBot(cGame pownergame)
             : base(pownergame)
@@ -1899,10 +1910,13 @@ namespace ACFramework
             if (!Dead)
             {
                 Dead = true;
-                Player.addScore(Value);
 
-                cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
-                player.increaseKillCount();
+                if (KilledByPlayer)
+                {
+                    Player.addScore(Value);
+                    cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
+                    player.increaseKillCount();
+                }
 
                 clearForcelist();
                 addForce(new cForceGravity(25.0f, new cVector3(0.0f, -1, 0.00f)));
@@ -1910,7 +1924,6 @@ namespace ACFramework
                 Sprite.setstate(State.Other, 190, 197, StateType.Hold);
             }
         }
-
 
         public override bool IsKindOf(string str)
         {
@@ -1925,7 +1938,4 @@ namespace ACFramework
             }
         }
     }
-
-    
-
 }
