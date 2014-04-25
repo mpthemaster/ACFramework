@@ -909,6 +909,7 @@ namespace ACFramework
     {
         public cCritterBulletPoison()
         {
+            _hitstrength = 1;
             _maxspeed = 50f;
             Speed = 25f;
 
@@ -977,9 +978,7 @@ namespace ACFramework
 
         public cCritterBulletEggs()
         {
-            //cSpriteSphere bulletsprite = new cSpriteSphere(cCritter.BULLETRADIUS, 6, 6);
-            //bulletsprite.FillColor = Color.HotPink;
-            //Sprite = bulletsprite; /* Also sets cSprite._prismdz to CritterBullet.BULLETPRISMDZ. */
+            _hitstrength = 1;
         }
 
         public override cCritterBullet Create()
@@ -1026,6 +1025,44 @@ namespace ACFramework
             get
             {
                 return "cCritterBulletEggs";
+            }
+        }
+
+    }
+
+    class cCritterPlutonium : cCritterBullet
+    {
+         
+
+        public cCritterPlutonium()
+        {
+
+            _hitstrength = 1;
+        }
+
+        public override cCritterBullet Create()
+        {
+            return new cCritterPlutonium();
+        }
+
+        public override void initialize(cCritterArmed pshooter)
+        {
+            base.initialize(pshooter);  // calls the cCritterBullet initialize 
+            Sprite.FillColor = Color.Black;
+            // can use setSprite here too
+            setRadius(0.1f);
+        }
+
+        public override bool IsKindOf(string str)
+        {
+            return str == "cCritterPlutonium" || base.IsKindOf(str);
+        }
+
+        public override string RuntimeClass
+        {
+            get
+            {
+                return "cCritterPlutonium";
             }
         }
 

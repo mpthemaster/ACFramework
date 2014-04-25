@@ -272,7 +272,7 @@ namespace ACFramework
         public cCritter3DPlayerHomer(cGame pownergame)
             :base( pownergame)
         {
-            BulletClass = new cCritter3DPlayerBullet();
+            BulletClass = new cCritterPlutonium();
             Sprite = new cSpriteQuake(ModelsMD2.Homer);
             Sprite.SpriteAttitude = cMatrix3.scale(2, 0.8f, 0.4f);
             setRadius(0.5f); //Default cCritter.PLAYERRADIUS is 0.4.  
