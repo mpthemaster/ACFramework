@@ -340,8 +340,7 @@ namespace ACFramework
                 poisonAmount += 3;
                 //Framework.snd.play(Sound.poisonSplat);
             }
-
-            if (collided && pcritter.IsKindOf("cCritterBulletPoison"))
+            else  if (collided && pcritter.IsKindOf("cCritterBulletPoison"))
             {
                 poisonAmount += 3;
                 Framework.snd.play(Sound.poisonSplat);
