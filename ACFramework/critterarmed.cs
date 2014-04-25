@@ -1030,7 +1030,7 @@ namespace ACFramework
 
     }
 
-    class cCritterPlutonium : cCritterBullet
+    class cCritterPlutonium : cCritter3DPlayerBullet
     {
          
 
