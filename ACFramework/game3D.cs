@@ -338,7 +338,6 @@ namespace ACFramework
             if (collided && pcritter.IsKindOf("cCritterSnake"))
             {
                 poisonAmount += 3;
-                //Framework.snd.play(Sound.poisonSplat);
             }
             else  if (collided && pcritter.IsKindOf("cCritterBulletPoison"))
             {
@@ -877,9 +876,9 @@ namespace ACFramework
 
             //The wall to the left of the first door
             cCritterWall wall2 = new cCritterWall(
-                new cVector3(-16, 0, 5),
-                new cVector3(-16, 0, 4),
-                30f,
+                new cVector3(-16.5f, 0, 5),
+                new cVector3(-16.5f, 0, 4),
+                31f,
                 16,
                 this);
             cSpriteTextureBox spritebox2 =
@@ -888,9 +887,9 @@ namespace ACFramework
 
             //The wall to the right of the first door
             cCritterWall wall3 = new cCritterWall(
-                new cVector3(16, 0, 5),
-                new cVector3(16, 0, 4),
-                30f,
+                new cVector3(16.5f, 0, 5),
+                new cVector3(16.5f, 0, 4),
+                31f,
                 16,
                 this);
             cSpriteTextureBox spritebox3 =
@@ -955,8 +954,6 @@ namespace ACFramework
 
             _seedcount = 0;
             Player.setMoveBox(new cRealBox3(15.0f, 20.0f, 110.0f));
-            float zpos = 0.0f; /* Point on the z axis where we set down the wall.  0 would be center,
-			halfway down the hall, but we can offset it if we like. */
             float height = 0.1f * _border.YSize;
             float ycenter = -_border.YRadius + height / 2.0f;
             float wallthickness = cGame3D.WALLTHICKNESS;
