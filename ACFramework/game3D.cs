@@ -335,6 +335,33 @@ namespace ACFramework
         {
             bool collided = base.collide(pcritter);
 
+            //Check if the critter is dead, if so the collision doesn't matter.
+            if (pcritter is cCritterBigHead)
+            {
+                if ((pcritter as cCritterBigHead).Dead == true)
+                    return false;
+            }
+            else if (pcritter is cCritterChicken)
+            {
+                if ((pcritter as cCritterChicken).Dead == true)
+                    return false;
+            }
+            else if (pcritter is cCritterMiniBot)
+            {
+                if ((pcritter as cCritterMiniBot).Dead == true)
+                    return false;
+            }
+            else if (pcritter is cCritterSailorVenus)
+            {
+                if ((pcritter as cCritterSailorVenus).Dead == true)
+                    return false;
+            }
+            else if (pcritter is cCritterSnake)
+            {
+                if ((pcritter as cCritterSnake).Dead == true)
+                    return false;
+            }
+
             if (collided && pcritter.IsKindOf("cCritterSnake"))
             {
                 poisonAmount += 3;
@@ -365,41 +392,17 @@ namespace ACFramework
             if (!collided)
                 return false;
 
-            //Check if the critter is dead, if so the collision doesn't matter.
-            if (pcritter is cCritterBigHead)
-            {
-                if ((pcritter as cCritterBigHead).Dead == true)
-                    return false;
-            }
-            else if (pcritter is cCritterChicken)
-            {
-                if ((pcritter as cCritterChicken).Dead == true)
-                    return false;
-            }
-            else if (pcritter is cCritterMiniBot)
-            {
-                if ((pcritter as cCritterMiniBot).Dead == true)
-                    return false;
-            }
-            else if (pcritter is cCritterSailorVenus)
-            {
-                if ((pcritter as cCritterSailorVenus).Dead == true)
-                    return false;
-            }
-            else
-                if ((pcritter as cCritterSnake).Dead == true)
-                    return false;
+
+
 
             /* If you're here, you collided.  We'll treat all the guys the same -- the collision
          with a Treasure is different, but we let the Treasure contol that collision. */
             if (playerhigherthancritter)
             {
-                Framework.snd.play(Sound.Goopy);
             }
             else
             {
                 damage(1);
-                //Framework.snd.play(Sound.Crunch);
 
                 if (Health == 0)
                 {
@@ -1539,7 +1542,6 @@ namespace ACFramework
         public cCritterSnake(cGame pownergame)
             : base(pownergame)
         {
-
             WaitShoot = 1f;
             _bshooting = true;
             Density = 2.0f;
