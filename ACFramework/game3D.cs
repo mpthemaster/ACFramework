@@ -341,6 +341,21 @@ namespace ACFramework
         {
             bool collided = base.collide(pcritter);
 
+            if (collided && pcritter.IsKindOf("cCritterSnake"))
+            {
+                poisonAmount += 3;
+            }
+            else  if (collided && pcritter.IsKindOf("cCritterBulletPoison"))
+            {
+                poisonAmount += 3;
+                Framework.snd.play(Sound.poisonSplat);
+            }
+            else if (collided && pcritter.IsKindOf("cCritterBulletEggs"))
+            {
+                Framework.snd.play(Sound.eggSplat);
+            }
+
+
             //Check if the critter is dead, if so the collision doesn't matter.
             if (pcritter is cCritterBigHead)
             {
@@ -366,20 +381,6 @@ namespace ACFramework
             {
                 if ((pcritter as cCritterSnake).Dead == true)
                     return false;
-            }
-
-            if (collided && pcritter.IsKindOf("cCritterSnake"))
-            {
-                poisonAmount += 3;
-            }
-            else  if (collided && pcritter.IsKindOf("cCritterBulletPoison"))
-            {
-                poisonAmount += 3;
-                Framework.snd.play(Sound.poisonSplat);
-            }
-            else if (collided && pcritter.IsKindOf("cCritterBulletEggs"))
-            {
-                Framework.snd.play(Sound.eggSplat);
             }
 
             //The wall's collide happens when the player touches it, but the player's collide doesn't happen.
