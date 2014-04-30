@@ -70,10 +70,16 @@ namespace ACFramework
         public override bool collide(cCritter pcritter)
         {
             bool collided = base.collide(pcritter);
-            if (collided && pcritter.IsKindOf("cCritter3DPlayerHomer"))
+
+            //If the player or some other critter is standing on the moving platform.
+            if (collided && (pcritter.IsKindOf("cCritter3DPlayerHomer") ||
+                            pcritter.IsKindOf("cCritterBigHead")        ||
+                            pcritter.IsKindOf("cCritterSailorVenus")    || 
+                            pcritter.IsKindOf("cCritterMiniBot")        ||
+                            pcritter.IsKindOf("cCritterSnake")          ||
+                            pcritter.IsKindOf("cCritterChicken")        ))
             {
-                cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
-                a.dragTo(a.Position.add(new cVector3(speed * Framework.pdoc.getdt(), 0, 0)), Framework.pdoc.getdt());
+                pcritter.dragTo(pcritter.Position.add(new cVector3(speed * Framework.pdoc.getdt(), 0, 0)), Framework.pdoc.getdt());
             }
             return false;
         }
@@ -836,15 +842,7 @@ namespace ACFramework
             float wallthickness = cGame3D.WALLTHICKNESS;
 
 
-            cCritterWall pwall = new cCritterWall(
-                new cVector3(_border.Midx + 2.0f, ycenter, zpos),
-                new cVector3(_border.Hix, ycenter, zpos),
-                height, 
-                wallthickness, 
-                this);
-            cSpriteTextureBox pspritebox =
-                new cSpriteTextureBox(pwall.Skeleton, BitmapRes.Wall3, 16); 
-            pwall.Sprite = pspritebox;
+
 
 
             //the key in the first part of the room
@@ -854,12 +852,22 @@ namespace ACFramework
                 2,
                 2,
                 this);
-            cSpriteTextureBox testingspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1);
-            pkey.Sprite = testingspritebox;
+            cSpriteTextureBox keyspritebox = new cSpriteTextureBox(pkey.Skeleton, BitmapRes.Key, 1);
+            pkey.Sprite = keyspritebox;
+
+            //the key in the second part of the room
+            cCritterKey pkey2 = new cCritterKey(
+                new cVector3(-24.0f, -7, -17),
+                new cVector3(-24.0f, -7, -15),
+                2,
+                2,
+                this);
+            cSpriteTextureBox keyspritebox2 = new cSpriteTextureBox(pkey2.Skeleton, BitmapRes.Key, 1);
+            pkey2.Sprite = keyspritebox2;
 
             cCritterHealth phealth = new cCritterHealth(
-                new cVector3( 3.0f, -7, 0),
-                new cVector3( 3.0f, -7, 2.0f),
+                new cVector3( 30.0f, -7, 0),
+                new cVector3( 30.0f, -7, 2.0f),
                 2,
                 2,
                 this);
@@ -899,30 +907,6 @@ namespace ACFramework
                 new cSpriteTextureBox(wall3.Skeleton, BitmapRes.Wall3, 2);
             wall3.Sprite = spritebox3;
 
-            /*
-             * Not yet finished with these two, so it's commented out for now.
-            //The wall to the right after the first door
-            cCritterWall wall4 = new cCritterWall(
-                new cVector3(2, 3, 5),
-                new cVector3(2, 3, 4),
-                32,
-                7,
-                this);
-            cSpriteTextureBox spritebox4 =
-                new cSpriteTextureBox(wall4.Skeleton, BitmapRes.Wall3, 1);
-            wall4.Sprite = spritebox4;
-
-            //the roof above wall4
-            cCritterWall wall5 = new cCritterWall(
-                new cVector3(0, 3, 5),
-                new cVector3(0, 3, 4),
-                2,
-                16,
-                this);
-            cSpriteTextureBox spritebox5 =
-                new cSpriteTextureBox(wall5.Skeleton, BitmapRes.Wall3, 1);
-            wall5.Sprite = spritebox5;
-            */
             //the first door
             cCritterDoorLocked door1 = new cCritterDoorLocked(
                 new cVector3(0, -8, 4.5f),
@@ -931,13 +915,44 @@ namespace ACFramework
             cSpriteTextureBox doorspritebox1 =
                 new cSpriteTextureBox(door1.Skeleton, BitmapRes.Door);
             door1.Sprite = doorspritebox1;
+ 
+            //The wall to the right after the first door
+            cCritterWall wall4 = new cCritterWall(
+                new cVector3(16.5f, 0, 0),
+                new cVector3(16.5f, 0, -5),
+                31,
+                16,
+                this);
+            cSpriteTextureBox spritebox4 =
+                new cSpriteTextureBox(wall4.Skeleton, BitmapRes.Wall3, 1);
+            wall4.Sprite = spritebox4;
+
+            //the wall that almost goes to the far edge.
+            cCritterWall wall5 = new cCritterWall(
+                new cVector3(16.5f, 0, -5),
+                new cVector3(16.5f, 0, -30),
+                31,
+                16,
+                this);
+            cSpriteTextureBox spritebox5 =
+                new cSpriteTextureBox(wall5.Skeleton, BitmapRes.Wall3, 1);
+            wall5.Sprite = spritebox5;
+
+            //the door straight ahead and to the right
+            cCritterDoorLocked door2 = new cCritterDoorLocked(
+                new cVector3(1, -8, -31),
+                new cVector3(1, -5, -31),
+                0.1f, 2, this);
+            cSpriteTextureBox doorspritebox2 =
+                new cSpriteTextureBox(door2.Skeleton, BitmapRes.Door);
+            door2.Sprite = doorspritebox2;
 
 
 
             //the exit to the next room
             cCritterDoor pdwall = new cCritterDoor(
-                new cVector3(_border.Lox, _border.Loy, _border.Midz),
-                new cVector3(_border.Lox, _border.Midy - 3, _border.Midz),
+                new cVector3(_border.Hix, _border.Loy,-31 ),
+                new cVector3(_border.Hix, -3, -31),
                 0.6f, 2, this);
             cSpriteTextureBox pspritedoor =
                 new cSpriteTextureBox(pdwall.Skeleton, BitmapRes.Door);
