@@ -946,7 +946,10 @@ namespace ACFramework
 
                 
                 // This is here because the bullet will delete itself before the other critter can check if it collided with it.
-                pcritter.collide(this);
+                if (pcritter.IsKindOf("cCritter3DPlayerHomer"))
+                {
+                    pcritter.collide(this);
+                }
 
                 int hitscore = pcritter.damage(_hitstrength);
                 delete_me(); //Makes a service request, but you won't go away yet.
@@ -1014,7 +1017,10 @@ namespace ACFramework
 
 
                 //This is here because the bullet will delete itself before the other critter can check if it collided with it.
-                pcritter.collide(this);
+                if (pcritter.IsKindOf("cCritter3DPlayerHomer"))
+                {
+                    pcritter.collide(this);
+                }
 
 
                 int hitscore = pcritter.damage(_hitstrength);

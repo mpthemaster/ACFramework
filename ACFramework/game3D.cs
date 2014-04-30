@@ -931,7 +931,7 @@ namespace ACFramework
             //the wall that almost goes to the far edge.
             cCritterWall wall5 = new cCritterWall(
                 new cVector3(16.5f, 0, -5),
-                new cVector3(16.5f, 0, -30),
+                new cVector3(16.5f, 0, -29),
                 31,
                 16,
                 this);
@@ -941,9 +941,9 @@ namespace ACFramework
 
             //the door straight ahead and to the right
             cCritterDoorLocked door2 = new cCritterDoorLocked(
-                new cVector3(1, -8, -31),
-                new cVector3(1, -5, -31),
-                0.1f, 2, this);
+                new cVector3(1, -8, -30.5f),
+                new cVector3(1, -3, -30.5f),
+                0.1f, 3, this);
             cSpriteTextureBox doorspritebox2 =
                 new cSpriteTextureBox(door2.Skeleton, BitmapRes.Door);
             door2.Sprite = doorspritebox2;
@@ -952,9 +952,9 @@ namespace ACFramework
 
             //the exit to the next room
             cCritterDoor pdwall = new cCritterDoor(
-                new cVector3(_border.Hix, _border.Loy,-31 ),
-                new cVector3(_border.Hix, -3, -31),
-                0.6f, 2, this);
+                new cVector3(_border.Hix, _border.Loy,-30.5f ),
+                new cVector3(_border.Hix, -3, -30.5f),
+                0.6f, 3, this);
             cSpriteTextureBox pspritedoor =
                 new cSpriteTextureBox(pdwall.Skeleton, BitmapRes.Door);
             pdwall.Sprite = pspritedoor;
