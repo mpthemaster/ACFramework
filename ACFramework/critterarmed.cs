@@ -945,7 +945,7 @@ namespace ACFramework
                     return false;
 
                 
-                // This is here because the bullet will delete itself before the other critter can check if it collided with it.
+                
                 if (pcritter.IsKindOf("cCritter3DPlayerHomer"))
                 {
                     pcritter.collide(this);
@@ -1016,7 +1016,7 @@ namespace ACFramework
                     return false;
 
 
-                //This is here because the bullet will delete itself before the other critter can check if it collided with it.
+                
                 if (pcritter.IsKindOf("cCritter3DPlayerHomer"))
                 {
                     pcritter.collide(this);
