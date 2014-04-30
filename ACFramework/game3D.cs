@@ -548,6 +548,8 @@ namespace ACFramework
         {
             bool collide;
 
+
+
             //If you hit a target, damage it and die.
             if (_baseAccessControl == 1)
                 collide = base.collide(pcritter);
@@ -557,6 +559,17 @@ namespace ACFramework
                     collide = false;
                 else
                 {
+                    if (pcritter is cCritterBigHead)
+                        (pcritter as cCritterBigHead).KilledByPlayer = true;
+                    else if (pcritter is cCritterChicken)
+                        (pcritter as cCritterChicken).KilledByPlayer = true;
+                    else if (pcritter is cCritterMiniBot)
+                        (pcritter as cCritterMiniBot).KilledByPlayer = true;
+                    else if (pcritter is cCritterSailorVenus)
+                        (pcritter as cCritterSailorVenus).KilledByPlayer = true;
+                    else if (pcritter is cCritterSnake)
+                        (pcritter as cCritterSnake).KilledByPlayer = true;
+
                     int hitscore = pcritter.damage(_hitstrength);
                     delete_me(); //Makes a service request, but you won't go away yet.
 
@@ -567,29 +580,7 @@ namespace ACFramework
                 //Bounce off or everything else.
                 collide = base.collide(pcritter); //Bounce off non-target critters 
 
-            if (pcritter is cCritterBigHead)
-            {
-                if ((pcritter as cCritterBigHead).Dead == true)
-                    (pcritter as cCritterBigHead).KilledByPlayer = true;
-            }
-            else if (pcritter is cCritterChicken)
-            {
-                if ((pcritter as cCritterChicken).Dead == true)
-                    (pcritter as cCritterChicken).KilledByPlayer = true;
-            }
-            else if (pcritter is cCritterMiniBot)
-            {
-                if ((pcritter as cCritterMiniBot).Dead == true)
-                    (pcritter as cCritterMiniBot).KilledByPlayer = true;
-            }
-            else if (pcritter is cCritterSailorVenus)
-            {
-                if ((pcritter as cCritterSailorVenus).Dead == true)
-                    (pcritter as cCritterSailorVenus).KilledByPlayer = true;
-            }
-            else if (pcritter is cCritterSnake)
-                if ((pcritter as cCritterSnake).Dead == true)
-                    (pcritter as cCritterSnake).KilledByPlayer = true;
+            
 
             return collide;
         }
