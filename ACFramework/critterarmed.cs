@@ -1026,6 +1026,8 @@ namespace ACFramework
             return base.collide(pcritter); //Bounce off non-target critters 
         }
 
+       
+
         public override bool IsKindOf(string str)
         {
             return str == "cCritterBulletEggs" || base.IsKindOf(str);
