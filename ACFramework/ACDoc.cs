@@ -28,6 +28,7 @@ namespace ACFramework
             bool didareset = false;
             if (_pgame.NewGame)
             {
+                MessageBox.Show("The controls are as follows: \n wasd for movement \n j to shoot \n k to jump \n Home to become invincible and to skip the 20 kill requirements in room 3");
                 RESTART = true;
                 _pgame.start();
                 didareset = true;
