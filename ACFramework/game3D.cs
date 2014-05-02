@@ -312,9 +312,9 @@ namespace ACFramework
                     poisonAmount -= 1;
                     currentRecoverTime = recoverTime;
                 }
-                if (poisonAmount>9)
+                if (poisonAmount>6)
                 { 
-                    poisonAmount = 9;
+                    poisonAmount = 6;
                 }
             }
             if (cheater)
@@ -1314,7 +1314,7 @@ namespace ACFramework
                 else if (currentRoom ==3 && _win==false )
                 {
                     _gameover = true;
-                    Player.addScore(500);
+                    Player.addScore(31337);
                     _win = true;
                     
                     Framework.snd.play(Sound.Hallelujah);
