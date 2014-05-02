@@ -261,7 +261,7 @@ namespace ACFramework
 
         public bool cheater = false;
 
-        private float recoverTime = 4;
+        private float recoverTime = 2;
         private float currentRecoverTime = 0;
 
         //because MaxSpeed is changed around with poison, this is used to remember the player's unpoisoned speed.
@@ -320,6 +320,8 @@ namespace ACFramework
             if (cheater)
             {
                 Health = 100;
+                killCount=1000;
+                _score = 0;
             }
         }
 
