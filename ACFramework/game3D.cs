@@ -112,7 +112,7 @@ namespace ACFramework
                 //I can't use (cCritter3DPlayerHomer)pcritter.keys += 1; 
                 //so I had to do it in a backwards manner to get it to work.
                 cCritter3DPlayerHomer a = (cCritter3DPlayerHomer)pcritter;
-                a.addHealth(20);
+                a.addHealth(50);
                 die();
                 return true;
             }
@@ -411,7 +411,7 @@ namespace ACFramework
             }
             else
             {
-                damage(1);
+                damage(10);
 
                 if (Health == 0)
                 {
@@ -1412,7 +1412,7 @@ namespace ACFramework
 
                 if (KilledByPlayer)
                 {
-                    Player.addScore(Value);
+                    Player.addScore(100);
                     cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
                     player.increaseKillCount();
                 }
@@ -1672,7 +1672,7 @@ namespace ACFramework
 
                 if (KilledByPlayer)
                 {
-                    Player.addScore(Value);
+                    Player.addScore(100);
                     cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
                     player.increaseKillCount();
                 }
@@ -1829,7 +1829,7 @@ namespace ACFramework
 
                 if (KilledByPlayer)
                 {
-                    Player.addScore(Value);
+                    Player.addScore(100);
                     cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
                     player.increaseKillCount();
                 }
@@ -1960,7 +1960,7 @@ namespace ACFramework
 
                 if (KilledByPlayer)
                 {
-                    Player.addScore(Value);
+                    Player.addScore(100);
                     cCritter3DPlayerHomer player = (cCritter3DPlayerHomer)Player;
                     player.increaseKillCount();
                 }
