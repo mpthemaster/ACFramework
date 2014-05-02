@@ -851,7 +851,10 @@ namespace ACFramework
         {
             get
             {
-                return "You have escaped from the craziness! \nYour Score Was " + Score.ToString();
+                if (Score != 0)
+                    return "You have escaped from the craziness! \nYour Score Was " + Score.ToString();
+                else
+                    return "You have escaped from the craziness! \nYour Score Was " + Score.ToString() + ", you fantabulously, intolerable cheater!";
             }
         }
 
