@@ -1067,7 +1067,7 @@ namespace ACFramework
         public override void initialize(cCritterArmed pshooter)
         {
             base.initialize(pshooter);  // calls the cCritterBullet initialize 
-            Sprite.FillColor = Color.Red;
+            Sprite.FillColor = Color.Green;
             // can use setSprite here too
             setRadius(0.1f);
         }
